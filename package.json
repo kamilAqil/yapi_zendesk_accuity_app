@@ -1,0 +1,22 @@
+{
+  "name": "yapi_zendesk_accuity_app",
+  "version": "1.0.0",
+  "description": "view past and upcomming appointments in zendesk",
+  "main": "./test_function/acuity_function.js",
+  "scripts": {
+    "test": "node ./test_function/acuity_function.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supahslacker/yapi_zendesk_accuity_app.git"
+  },
+  "author": "kamilo and miker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/supahslacker/yapi_zendesk_accuity_app/issues"
+  },
+  "homepage": "https://github.com/supahslacker/yapi_zendesk_accuity_app#readme",
+  "dependencies": {
+    "dotenv": "^6.2.0"
+  }
+}
