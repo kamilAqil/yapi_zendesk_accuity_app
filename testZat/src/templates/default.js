@@ -1,5 +1,6 @@
 import { templatingLoop as loop, escapeSpecialChars as escape } from '../javascripts/lib/helpers.js'
 import I18n from '../javascripts/lib/i18n.js'
+var Acuity = require('acuityscheduling');
 
 function organizationMarkup (organization) {
   return `<li>${escape(organization.name)}</li>`
