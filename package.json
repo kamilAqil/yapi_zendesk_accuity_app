@@ -4,7 +4,7 @@
   "description": "view past and upcomming appointments in zendesk",
   "main": "./test_function/acuity_function.js",
   "scripts": {
-    "test": "node ./test_function/acuity_function.js"
+    "test": "nodemon ./test_function/acuity_function.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/supahslacker/yapi_zendesk_accuity_app#readme",
   "dependencies": {
-    "dotenv": "^6.2.0"
+    "acuityscheduling": "^0.1.7",
+    "axios": "^0.18.0",
+    "dotenv": "^6.2.0",
+    "node-zendesk": "^1.4.0",
+    "nodemon": "^1.18.9",
+    "zendesk-node-api": "^1.3.0"
   }
 }
