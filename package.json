@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/supahslacker/yapi_zendesk_accuity_app#readme",
   "dependencies": {
+    "acuityscheduling": "^0.1.7",
     "axios": "^0.18.0",
     "dotenv": "^6.2.0",
     "node-zendesk": "^1.4.0",

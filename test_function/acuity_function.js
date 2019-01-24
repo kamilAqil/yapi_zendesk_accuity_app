@@ -1,14 +1,23 @@
 require('dotenv').config();
 
-// axios
-const axios = require('axios');
 
+let Acuity = require('acuityscheduling');
+let userId = process.env.USER_ID;
+let apiKey = process.env.APIKEY;
+ 
+let acuity = Acuity.basic({
+  userId: userId,
+  apiKey: apiKey
+});
+ 
 
+let testTicketRequester = {name:'Bob',email:'test@gmail.com'}
 
 // get acuity data from 'https://acuityscheduling.com/api/v1/appointments?email=emailName&minDate=1991-01-01'
 
-function getAccuityData(email){
-
+function getAccuityData(ticketRequester){
+    let name = testTicketRequester.name;
+    let email = testTicketRequester.email;
     let accuityEndpoint = `https://acuityscheduling.com/api/v1/appointments?email=${email}&minDate=1991-01-01`;
     
         // Make a request for a user with a given ID
@@ -30,4 +39,4 @@ function getAccuityData(email){
 }
 
 
-getAccuityData('info@smileforeverdental.com');
+getAccuityData(testTicketRequester);
