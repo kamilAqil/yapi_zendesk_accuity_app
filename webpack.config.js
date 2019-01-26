@@ -66,10 +66,7 @@ module.exports = {
       }
     ]
   },
-  externals: ['tls', 'net', 'fs'],
-  node:{
-    fs:"empty"
-  },
+
   plugins: [
     // Empties the dist folder
     new CleanWebpackPlugin(['dist/*']),
