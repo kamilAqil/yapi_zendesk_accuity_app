@@ -9,8 +9,11 @@ export default function (args) {
   return `<div class="example-app">
     <div>
       <h1>Hi ${escape(args.currentUserName)}, this is a sample app</h1>
-      <h2>${I18n.t('default.organizations')}:</h2>
-      <ul>${loop(args.organizations, organizationMarkup)}</ul>
+      
+      
+      weee wooo
     </div>
   </div>`
 }
+// <h2>${I18n.t('default.organizations')}:</h2>
+// <ul>${loop(args.organizations, organizationMarkup)}</ul>
