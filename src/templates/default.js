@@ -30,8 +30,8 @@ export default function (args) {
 
   return `<div class="example-app">
     <div>
-      <h1>Hi ${escape(args.currentUserName)}, this is a sample app</h1>
-      
+      <h1>Hi ${escape(args.currentUserName)},</h1>\n\n
+      <p>This is the requester name ${args.ticketRequester}</p>\n\n
       
       weee wooo
     </div>
