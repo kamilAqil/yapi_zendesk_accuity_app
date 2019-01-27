@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TranslationsPlugin = require('./webpack/translations-plugin')
 const devDependencies = require('./package.json').devDependencies
+const Dotenv = require('dotenv-webpack')
 
 // this function reads Zendesk Garden npm dependencies from package.json and
 // creates a jsDelivr url
@@ -66,7 +67,9 @@ module.exports = {
       }
     ]
   },
-
+  node:{
+    fs:'empty'
+  },
   plugins: [
     // Empties the dist folder
     new CleanWebpackPlugin(['dist/*']),
@@ -91,6 +94,7 @@ module.exports = {
       vendorJs: externalAssets.js,
       template: './src/templates/iframe.html',
       filename: 'iframe.html'
-    })
+    }),
+    new Dotenv()
   ]
 }

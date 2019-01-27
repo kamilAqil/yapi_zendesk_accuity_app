@@ -6,6 +6,9 @@ import I18n from '../../javascripts/lib/i18n'
 import { resizeContainer, render } from '../../javascripts/lib/helpers'
 import getDefaultTemplate from '../../templates/default'
 
+import acuity from '../acuity/acuity';
+
+
 const MAX_HEIGHT = 1000
 const API_ENDPOINTS = {
   organizations: '/api/v2/organizations.json'
@@ -30,7 +33,7 @@ class App {
     const context = (await this._client.get)
     const currentUser = (await this._client.get('currentUser')).currentUser
     this.states.currentUserName = currentUser.name
-    // create the client data and attach it to 
+    // grab the ticket requester from ZAF client and attach to 
     // a states variable
     const ticketRequester = (await this._client.get('ticket.requester.name').then(function(data){
       // if no error then return data
@@ -38,9 +41,15 @@ class App {
         return data['ticket.requester.name'];
       }
     }));
-    console.log(`ticket requester ${JSON.stringify(ticketRequester)}`);
+    // console.log(`ticket requester ${JSON.stringify(ticketRequester)}`);
     this.states.ticketRequester = ticketRequester;
 
+    // should probably run acuity function here to attach to state
+    console.log(`acuity ${JSON.stringify(acuity)}`)
+    // acuity.request('/appointments', function (err, res, appointments) {
+    //   if (err) return console.error(err);
+    //   console.log(`appointments:${appointments}`);
+    // });
 
     I18n.loadTranslations(currentUser.locale)
 
