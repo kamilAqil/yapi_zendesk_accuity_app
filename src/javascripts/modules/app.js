@@ -27,8 +27,20 @@ class App {
    * Initialize module, render main template
    */
   async init () {
+    const context = (await this._client.get)
     const currentUser = (await this._client.get('currentUser')).currentUser
     this.states.currentUserName = currentUser.name
+    // create the client data and attach it to 
+    // a states variable
+    const ticketRequester = (await this._client.get('ticket.requester.name').then(function(data){
+      // if no error then return data
+      if (!data.error){
+        return data['ticket.requester.name'];
+      }
+    }));
+    console.log(`ticket requester ${JSON.stringify(ticketRequester)}`);
+    this.states.ticketRequester = ticketRequester;
+
 
     I18n.loadTranslations(currentUser.locale)
 
