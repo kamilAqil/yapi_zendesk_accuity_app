@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "acuityscheduling": "^0.1.7",
+    "axios": "^0.18.0",
     "dotenv": "^6.2.0",
     "dotenv-webpack": "^1.7.0",
     "fs": "0.0.1-security",

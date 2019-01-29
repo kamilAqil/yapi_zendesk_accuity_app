@@ -8,11 +8,6 @@ function organizationMarkup (organization) {
 
 export default function (args) {
   
-  // get ticket owner information
-  console.log(`These are the args ticket requester property: ${JSON.stringify(args.ticketRequester)}`);
-  
-
-
 
   return `<div class="example-app">
     <div>

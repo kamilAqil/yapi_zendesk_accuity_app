@@ -6,7 +6,16 @@ import I18n from '../../javascripts/lib/i18n'
 import { resizeContainer, render } from '../../javascripts/lib/helpers'
 import getDefaultTemplate from '../../templates/default'
 
-import acuity from '../acuity/acuity';
+import Acuity from 'acuityscheduling';
+
+
+
+let acuity = Acuity.basic({
+    userId: process.env.ACUITY_USER_ID,
+    apiKey: process.env.ACUITY_API_KEY
+});
+;
+
 
 
 const MAX_HEIGHT = 1000
@@ -46,10 +55,18 @@ class App {
 
     // should probably run acuity function here to attach to state
     console.log(`acuity ${JSON.stringify(acuity)}`)
-    // acuity.request('/appointments', function (err, res, appointments) {
-    //   if (err) return console.error(err);
-    //   console.log(`appointments:${appointments}`);
-    // });
+
+    let acuityOptions = {
+      headers : {
+          'Access-Control-Allow-Origin': 'http://localhost:4567',
+          'Access-Control-Allow-Credentials':'true'
+      }
+  }
+  
+    acuity.request('/appointments', acuityOptions, function (err, res, appointments) {
+      if (err) return console.error(err);
+      console.log(`appointments:${appointments}`);
+    });
 
     I18n.loadTranslations(currentUser.locale)
 
