@@ -58,7 +58,7 @@ class App {
 
     let acuityOptions = {
       headers : {
-          'Access-Control-Allow-Origin': 'http://localhost:4567',
+          'Access-Control-Allow-Origin': 'https://191648.apps.zdusercontent.com',
           'Access-Control-Allow-Credentials':'true'
       }
   }
@@ -67,6 +67,8 @@ class App {
       if (err) return console.error(err);
       console.log(`appointments:${appointments}`);
     });
+
+   
 
     I18n.loadTranslations(currentUser.locale)
 

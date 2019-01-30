@@ -2,11 +2,12 @@ const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const BrotliPlugin = require('brotli-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const TranslationsPlugin = require('./webpack/translations-plugin')
 const devDependencies = require('./package.json').devDependencies
 const Dotenv = require('dotenv-webpack')
-
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 // this function reads Zendesk Garden npm dependencies from package.json and
 // creates a jsDelivr url
 const zendeskGardenJsDelivrUrl = (function () {
@@ -34,6 +35,7 @@ const externalAssets = {
 }
 
 module.exports = {
+  devtool:'',
   entry: {
     app: [
       'babel-polyfill',
@@ -95,6 +97,13 @@ module.exports = {
       template: './src/templates/iframe.html',
       filename: 'iframe.html'
     }),
-    new Dotenv()
+    new Dotenv(),
+    new BrotliPlugin({
+      asset: '[path].br[query]',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
+  
   ]
 }
