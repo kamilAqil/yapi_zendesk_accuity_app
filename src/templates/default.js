@@ -14,7 +14,7 @@ export default function (args) {
       <h1>Hi ${escape(args.currentUserName)},</h1>\n\n
       <p>This is the requester name ${args.ticketRequester}</p>\n\n
       
-      wa wa wee wa
+      wa wa wee wa woooo weeeee
     </div>
   </div>`
 }

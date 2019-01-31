@@ -8,13 +8,18 @@ import getDefaultTemplate from '../../templates/default'
 
 import Acuity from 'acuityscheduling';
 
-
-
 let acuity = Acuity.basic({
-    userId: process.env.ACUITY_USER_ID,
-    apiKey: process.env.ACUITY_API_KEY
+  userId: process.env.ACUITY_USER_ID,
+  apiKey: process.env.ACUITY_API_KEY
 });
-;
+
+let acuityOptions = {
+  headers : {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials':true,
+      'crossDomain':true,
+  }
+}
 
 
 
@@ -56,18 +61,20 @@ class App {
     // should probably run acuity function here to attach to state
     console.log(`acuity ${JSON.stringify(acuity)}`)
 
-    let acuityOptions = {
-      headers : {
-          'Access-Control-Allow-Origin': 'https://191648.apps.zdusercontent.com',
-          'Access-Control-Allow-Credentials':'true'
-      }
-  }
-  
-    acuity.request('/appointments', acuityOptions, function (err, res, appointments) {
+    
+    acuity.request('/appointments',acuityOptions, function (err, res, appointments) {
       if (err) return console.error(err);
       console.log(`appointments:${appointments}`);
     });
 
+    
+
+    console.log(`This is the acuity package:${JSON.stringify(acuity.request('/appointments', acuityOptions, function (err, res, appointments) {
+      if (err) return console.error(err);
+      console.log(appointments);
+  }))}`);
+
+    console.log(`The acuity request mode is ${acuity.request.mode}`)
    
 
     I18n.loadTranslations(currentUser.locale)
