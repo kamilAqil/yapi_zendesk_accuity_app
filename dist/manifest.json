@@ -5,6 +5,7 @@
     "email": "kamil.aqil@yapicentral.com",
     "url": ""
   },
+  "domainWhitelist": ["example.com"],
   "defaultLocale": "en",
   "private": true,
   "location": {
