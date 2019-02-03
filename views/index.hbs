@@ -9,9 +9,10 @@ Yodely dodely {{GUID}}
     client.get('ticket.requester.name').then(function (data) {
             console.log(data['ticket.requester.name']);
             
-            axios.get('http://localhost:3000/acuityAPI')
+            axios.get(`http://localhost:3000/acuityAPI?ticketRequester=${data['ticket.requester.name']}`)
             .then(function (response) {
-                console.log(response);
+                console.log(`Got a response from the acuity api : ${response}`);
+                console.dir(response)
             })
             .catch(function (error) {
                 console.log(error);
