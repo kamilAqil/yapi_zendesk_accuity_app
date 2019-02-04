@@ -1,3 +1,23 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
-Yodely dodely
+Yodely dodely {{GUID}}
+<script type="text/javascript" src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    let client = ZAFClient.init();
+    
+    {{!-- get ticket requester name --}}
+    client.get('ticket.requester.name').then(function (data) {
+            console.log(data['ticket.requester.name']);
+            {{!-- send ticket requester name to server api --}}
+            axios.get(`http://localhost:3000/acuityAPI?ticketRequester=${data['ticket.requester.name']}`)
+            .then(function (response) {
+                console.dir(`Got a response from the acuity api : ${response}`);
+                console.dir(response.data)
+                
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        });
+</script>

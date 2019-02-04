@@ -1,34 +1,15 @@
 var express = require('express');
 var router = express.Router();
+const JSON = require('circular-json');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   console.log(`Hit home route`);
-  var zendesk = require('node-zendesk');
-  //console.log(process.env.ZENDESK_EMAIL)
-
-  var client = zendesk.createClient({
-    username:  process.env.ZENDESK_EMAIL,
-    token:     process.env.ZENDESK_TOKEN,
-    remoteUri: 'https://yapi1504512150.zendesk.com/api/v2',
-    oauth: true
-  });
-
-  console.log(`client: ${JSON.stringify(client,null," ")}`)
-  
-  client.users.list(function (err, req, result) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log(JSON.stringify(result[0], null, 2, true));//gets the first page
-  });
-    // get ticket requester data 
-    
-    // pass requester to acuity
-      
-
-    res.render('index', { title: 'Express' });
+    // get guid from req
+    console.log(`req:${JSON.stringify(req.query)}`)  
+    let guid = req.query.app_guid
+    res.render('index', { title: 'Express', GUID:`${guid}` });
+    // res.redirect(`${oAuthURL}`);
 });
 
 module.exports = router;
