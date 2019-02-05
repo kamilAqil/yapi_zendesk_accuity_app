@@ -1,6 +1,37 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
-Yodely dodely {{GUID}}
+<div class="card">
+    <div class="card-body">
+        <h4 style="text-decoration:underline">Acuity Schedule </h4>
+</div>
+<p id="ticketRequester"></p>
+<div class="previous_appt">
+    <p>Previous Appointment</p>
+    <ul class = "prevAppt">
+        {{#each prevAppt}}
+        <li>{{this}}</li>
+        {{else}}
+        <p class="empty">No Previous Appointments</p>
+        {{/each}}
+    </ul>
+    <button class="btn btn-primary" >Open Link</button>
+</div>
+<br>
+<div class="future_appt">
+    <p>Future Appointments</p>
+        <ul class = "futureAppt">
+        {{#each futureAppt}}
+        <li>{{this}}</li>
+        {{else}}
+        <p class="empty">No Future Appointments</p>
+        {{/each}}
+    </ul>
+    <button class="btn btn-primary" >Open Link</button>
+</div>
+<br>
+<div class="view_all">
+    <a href="/" style="font-size:12px">View all Appointments</a>
+
+</div>
+
 <script type="text/javascript" src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
@@ -9,11 +40,14 @@ Yodely dodely {{GUID}}
     {{!-- get ticket requester name --}}
     client.get('ticket.requester.name').then(function (data) {
             console.log(data['ticket.requester.name']);
+            document.getElementById("ticketRequester").innerHTML = "Ticket Requester Name: " + data['ticket.requester.name'];
+
             {{!-- send ticket requester name to server api --}}
             axios.get(`http://localhost:3000/acuityAPI?ticketRequester=${data['ticket.requester.name']}`)
             .then(function (response) {
                 console.dir(`Got a response from the acuity api : ${response}`);
                 console.dir(response.data)
+                
                 
             })
             .catch(function (error) {
@@ -21,3 +55,4 @@ Yodely dodely {{GUID}}
             });
         });
 </script>
+
