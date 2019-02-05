@@ -82,7 +82,7 @@ async function doAcuityStuff(requesterEmail) {
     return dataForFrontEnd
 }
 // replace this with requester email later
-let getAcuityData = new Promise((resolve, reject) => {
+let getAcuityData = new Promise((resolve, reject,requesterEmail) => {
   appointmentOptions = {
     email: requesterEmail,
   }
