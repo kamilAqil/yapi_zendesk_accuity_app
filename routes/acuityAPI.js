@@ -9,35 +9,43 @@ var apiKey = process.env.ACUITY_API_TOKEN;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(`Request : ${JSON.stringify(req.query)}`)
+  
   // get ticket requester
-  let ticketRequester = req.query
-  // console.log(`The ticket requester is ${JSON.stringify(ticketRequester)}`);
+  let requesterName = req.query.requesterName;
+  let requesterEmail = req.query.requesterEmail;
 
-  // run acuity stuff here
-  // var acuity = Acuity.basic({
-  //   userId: '16749504',
-  //   apiKey: 'a12f70dccfdd0474e97a0a4ee310a017'
-  // });
+  console.log(`The ticket requester is ${requesterName} and their email is ${requesterEmail}`);
+
+ 
   
   var acuity = Acuity.basic({
     userId: userId,
     apiKey: apiKey
   });
-  console.log(`Acuity: ${JSON.stringify(acuity)}`)
-  console.log(`userId:${userId}, apiKey:${apiKey}`);
+
+  appointmentOptions = {
+    email: 'centralcalgaryperio@gmail.com',
+    minDate: '2001-02-01'
+  }
+
+ 
   
-  acuity.request('/appointments', function (err, res, appointments) {
+  let x = acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
     if (err) return console.error(err);
-    console.log(appointments);
-    console.log(`acuity res:${res}`)
+    if(appointments.length<=0){
+      console.log(`There are no appointments`)
+    }else{
+      console.log(appointments)
+      console.log(`appointments array length: ${appointments.length}`);
+      console.log(`appointments array: ${JSON.stringify(appointments,null," ")}`);
+      return appointments;
+    }
+    // res.send(`wooo acuity route hit,`);
   });
 
+  console.log(`x:${x}`); 
 
-  // send back html or render a template
-  res.send(`wooo acuity route hit,`);
-    
-  console.dir(process.env.SERVER_URL)
+  res.send(`wooo`);
 });
 
 module.exports = router;
