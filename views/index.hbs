@@ -13,7 +13,8 @@ Yodely dodely
     let client = ZAFClient.init();
     
     {{!-- get ticket requester name --}}
-    client.get('ticket.requester').then(function(data) {
+
+    client.get('ticket.requester').then(function(data){
             data = data['ticket.requester'];
             let requesterName = data.name;
             let requesterEmail = data.email;
@@ -29,4 +30,5 @@ Yodely dodely
                 console.log(error);
             });
         });
+
 </script>
