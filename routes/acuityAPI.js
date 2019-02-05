@@ -26,7 +26,10 @@ router.get('/', function(req, res, next) {
   doAcuityStuff(requesterEmail).then(function(data){
     console.log(`data in accuity stuff function ${data}`)
     res.send(data)
+  }).catch((err)=>{
+    console.log(`error getting acuity data:${err}`)
   });
+  
 });
 
 async function doAcuityStuff(requesterEmail) {
