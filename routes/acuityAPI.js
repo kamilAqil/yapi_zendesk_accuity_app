@@ -11,7 +11,6 @@ let acuity = Acuity.basic({
 var moment = require('moment');
 moment().format();
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   
@@ -25,8 +24,8 @@ router.get('/', function(req, res, next) {
   
   
   doAcuityStuff().then(function(data){
-    console.log(`data in accuity stuff function ${data}`)
-    res.send(`Acuity stuff done`)
+    console.log(`data in accuity stuff function ${JSON.stringify(data)}`)
+    res.send(`Acuity stuff done here is the data ${data}`)
   });
 });
 
@@ -34,36 +33,58 @@ async function doAcuityStuff() {
   
   let dataForFrontEnd = {
       pastAppointments : [],
+      todaysAppointments : [],
       futureAppointments : []
   }
   let dataFromAcuityPromise = await getAcuityData;
   // trim acuity data here and return trimmed data
   // for each object extract the appointment ID, name, 
   // appointment date
-  dataFromAcuityPromise.forEach(element => {
-   
-    let appointmentObjectToPush = {
-      id: element['id'],
-      name: element['firstName'],
-      date: element['date'],
-      assignedTo: element['calendar']
-    }
-    console.log(`formatted date ${moment.utc(appointmentObjectToPush['date']).format()}`)
-    // if appointmentObjectToPush date is before today
-    // push object to pastAppointments array, if date
-    // is after appointmentObjectToPush date push object
-    // to future appointments
-    let today = moment();
-    let timeToCompare = moment(appointmentObjectToPush['date']);
-    console.log(`time to compare ${timeToCompare} and today ${today}`)
-    let difference = timeToCompare.diff(today,'days');
-    console.log(`difference ${difference}`)
+    dataFromAcuityPromise.forEach(element => {
+      let dateToTest = new Date(element['date']).toISOString();
+      let appointmentObjectToPush = {
+        id: element['id'],
+        name: element['firstName'],
+        date: dateToTest,
+        assignedTo: element['calendar'],
+        difference : undefined
+      }
+      
 
-    console.log(appointmentObjectToPush)
-  });
-  return dataForFrontEnd
+      // if appointmentObjectToPush date is before today
+      // push object to pastAppointments array, if date
+      // is after appointmentObjectToPush date push object
+      // to future appointments
+      let today = moment();
+      today.utc();
+      let timeToCompare = moment(appointmentObjectToPush['date']);
+      timeToCompare.format();
+      console.log(`appointment date ${appointmentObjectToPush['date']}`)
+      // let timeToCompare = moment.parseZone(appointmentObjectToPush['date']).utc().format();
+      console.log(`time to compare ${timeToCompare} and today ${today}`)
+      let difference = timeToCompare.diff(today,'days');
+      
+      appointmentObjectToPush['difference'] = difference
+      console.log(`appointmentObjectToPush: ${JSON.stringify(appointmentObjectToPush,null," ")}`)
+      
+      // test appointmentObject difference and if 
+      // difference is positive it is an upcoming appt
+      // if it is a negative difference then it is a past 
+      // appt and if there is no difference it is an appointment 
+      // today
+      if(appointmentObjectToPush['difference']<0){
+        dataForFrontEnd.pastAppointments.push(appointmentObjectToPush)
+      }else if (appointmentObjectToPush['difference']<0){
+        dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
+      }else if (appointmentObjectToPush['difference']>0){
+        dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
+      }
+
+    });
+        
+    return dataForFrontEnd
 }
-
+// replace this with requester email later
 let getAcuityData = new Promise((resolve, reject) => {
   appointmentOptions = {
     email: 'centralcalgaryperio@gmail.com',
