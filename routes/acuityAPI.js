@@ -40,12 +40,12 @@ router.get('/', function(req, res, next) {
       console.log(`appointments array: ${JSON.stringify(appointments,null," ")}`);
       return appointments;
     }
-    // res.send(`wooo acuity route hit,`);
+    
   });
 
   console.log(`x:${x}`); 
-
-  res.send(`wooo`);
+  res.send(`wooo acuity route hit,`);
+  
 });
 
 module.exports = router;
