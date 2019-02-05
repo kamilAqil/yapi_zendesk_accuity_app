@@ -23,13 +23,13 @@ router.get('/', function(req, res, next) {
   
   
   
-  doAcuityStuff().then(function(data){
+  doAcuityStuff(requesterEmail).then(function(data){
     console.log(`data in accuity stuff function ${data}`)
     res.send(data)
   });
 });
 
-async function doAcuityStuff() {
+async function doAcuityStuff(requesterEmail) {
   
   let dataForFrontEnd = {
       pastAppointments : [],
