@@ -24,8 +24,8 @@ router.get('/', function(req, res, next) {
   
   
   doAcuityStuff().then(function(data){
-    console.log(`data in accuity stuff function ${JSON.stringify(data)}`)
-    res.send(`Acuity stuff done here is the data ${data}`)
+    console.log(`data in accuity stuff function ${data}`)
+    res.send(data)
   });
 });
 
@@ -59,13 +59,10 @@ async function doAcuityStuff() {
       today.utc();
       let timeToCompare = moment(appointmentObjectToPush['date']);
       timeToCompare.format();
-      console.log(`appointment date ${appointmentObjectToPush['date']}`)
-      // let timeToCompare = moment.parseZone(appointmentObjectToPush['date']).utc().format();
-      console.log(`time to compare ${timeToCompare} and today ${today}`)
       let difference = timeToCompare.diff(today,'days');
       
       appointmentObjectToPush['difference'] = difference
-      console.log(`appointmentObjectToPush: ${JSON.stringify(appointmentObjectToPush,null," ")}`)
+      console.log(`pushing appointment`)
       
       // test appointmentObject difference and if 
       // difference is positive it is an upcoming appt
