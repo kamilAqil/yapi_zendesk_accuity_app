@@ -58,6 +58,7 @@
                 
             })
             .catch(function (error) {
+                throw error
                 console.log(`There are no appointments`);
             });
         });
