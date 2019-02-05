@@ -22,7 +22,7 @@ Yodely dodely
             {{!-- send ticket requester name to server api --}}
             axios.get(`http://localhost:3000/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
             .then(function (response) {
-                console.dir(`Got a response from the acuity api ${JSON.stringify(response.data,null," ")}`);
+                console.dir(`Got a response from the acuity api\n...\n Here comes data ${JSON.stringify(response.data,null," ")}`);
                 
                 
             })
