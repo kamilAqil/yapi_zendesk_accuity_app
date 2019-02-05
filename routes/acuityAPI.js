@@ -1,43 +1,107 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 const JSON = require('circular-json');
-var Acuity = require('acuityscheduling');
-var userId = process.env.ACUITY_USER_ID;
-var apiKey = process.env.ACUITY_API_TOKEN;
- 
-
+let Acuity = require('acuityscheduling');
+let userId = process.env.ACUITY_USER_ID;
+let apiKey = process.env.ACUITY_API_TOKEN;
+let acuity = Acuity.basic({
+  userId: userId,
+  apiKey: apiKey
+});
+var moment = require('moment');
+moment().format();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(`Request : ${JSON.stringify(req.query)}`)
+  
   // get ticket requester
-  let ticketRequester = req.query
-  // console.log(`The ticket requester is ${JSON.stringify(ticketRequester)}`);
+  let requesterName = req.query.requesterName;
+  let requesterEmail = req.query.requesterEmail;
 
-  // run acuity stuff here
-  // var acuity = Acuity.basic({
-  //   userId: '16749504',
-  //   apiKey: 'a12f70dccfdd0474e97a0a4ee310a017'
-  // });
+  // configure appointment options
+  // with requester name and e-mail
   
-  var acuity = Acuity.basic({
-    userId: userId,
-    apiKey: apiKey
-  });
-  console.log(`Acuity: ${JSON.stringify(acuity)}`)
-  console.log(`userId:${userId}, apiKey:${apiKey}`);
   
-  acuity.request('/appointments', function (err, res, appointments) {
-    if (err) return console.error(err);
-    console.log(appointments);
-    console.log(`acuity res:${res}`)
+  
+  doAcuityStuff().then(function(data){
+    console.log(`data in accuity stuff function ${JSON.stringify(data)}`)
+    res.send(`Acuity stuff done here is the data ${data}`)
   });
-
-
-  // send back html or render a template
-  res.send(`wooo acuity route hit,`);
-    
-  console.dir(process.env.SERVER_URL)
 });
+
+async function doAcuityStuff() {
+  
+  let dataForFrontEnd = {
+      pastAppointments : [],
+      todaysAppointments : [],
+      futureAppointments : []
+  }
+  let dataFromAcuityPromise = await getAcuityData;
+  // trim acuity data here and return trimmed data
+  // for each object extract the appointment ID, name, 
+  // appointment date
+    dataFromAcuityPromise.forEach(element => {
+      let dateToTest = new Date(element['date']).toISOString();
+      let appointmentObjectToPush = {
+        id: element['id'],
+        name: element['firstName'],
+        date: dateToTest,
+        assignedTo: element['calendar'],
+        difference : undefined
+      }
+      
+
+      // if appointmentObjectToPush date is before today
+      // push object to pastAppointments array, if date
+      // is after appointmentObjectToPush date push object
+      // to future appointments
+      let today = moment();
+      today.utc();
+      let timeToCompare = moment(appointmentObjectToPush['date']);
+      timeToCompare.format();
+      console.log(`appointment date ${appointmentObjectToPush['date']}`)
+      // let timeToCompare = moment.parseZone(appointmentObjectToPush['date']).utc().format();
+      console.log(`time to compare ${timeToCompare} and today ${today}`)
+      let difference = timeToCompare.diff(today,'days');
+      
+      appointmentObjectToPush['difference'] = difference
+      console.log(`appointmentObjectToPush: ${JSON.stringify(appointmentObjectToPush,null," ")}`)
+      
+      // test appointmentObject difference and if 
+      // difference is positive it is an upcoming appt
+      // if it is a negative difference then it is a past 
+      // appt and if there is no difference it is an appointment 
+      // today
+      if(appointmentObjectToPush['difference']<0){
+        dataForFrontEnd.pastAppointments.push(appointmentObjectToPush)
+      }else if (appointmentObjectToPush['difference']<0){
+        dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
+      }else if (appointmentObjectToPush['difference']>0){
+        dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
+      }
+
+    });
+        
+    return dataForFrontEnd
+}
+// replace this with requester email later
+let getAcuityData = new Promise((resolve, reject) => {
+  appointmentOptions = {
+    email: 'centralcalgaryperio@gmail.com',
+  }
+  acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
+    if (err) return console.error(err);
+    if (appointments.length <= 0) {
+      console.log(`There are no appointments`)
+      reject(new Error('error getting acuity data deg'));
+    } else {
+      console.log(`appointments array length: ${appointments.length}`);
+      
+
+      resolve(appointments);
+    }
+  })
+});
+
 
 module.exports = router;
