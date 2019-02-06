@@ -50,7 +50,7 @@
 
             {{!-- send ticket requester name to server api --}}
             {{!-- woo --}}
-            axios.get(`https://localhost/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
+            axios.get(`localhost:${process.env.PORT}/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
             .then(function (response) {
                 console.dir(`Got a response from the acuity api\n...\n Here comes data ${JSON.stringify(response.data,null," ")}`);
                 
