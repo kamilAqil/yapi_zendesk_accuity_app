@@ -28,6 +28,7 @@ router.get('/', function(req, res, next) {
     res.send(data)
   }).catch((err)=>{
     console.log(`error getting acuity data:${err}`)
+    res.send(`error getting acuity data`)
   });
   
 });
@@ -93,7 +94,7 @@ async function doAcuityStuff(requesterEmail) {
         if (err) return console.error(err);
         if (appointments.length <= 0) {
           console.log(`There are no appointments`)
-          reject(new Error('error getting acuity data deg'));
+          new Error('error getting acuity data deg');
         } else {
           console.log(`appointments array length: ${appointments.length}`);
           
