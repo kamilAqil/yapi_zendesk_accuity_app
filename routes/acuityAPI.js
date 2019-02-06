@@ -13,7 +13,7 @@ moment().format();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  
+  console.log(`Hit the acuity route`)
   // get ticket requester
   let requesterName = req.query.requesterName;
   let requesterEmail = req.query.requesterEmail;
