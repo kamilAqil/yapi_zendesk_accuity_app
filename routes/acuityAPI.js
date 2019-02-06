@@ -84,24 +84,24 @@ async function doAcuityStuff(requesterEmail) {
         
     return dataForFrontEnd
 }
-// replace this with requester email later
-let getAcuityData = new Promise((resolve, reject,requesterEmail) => {
-  appointmentOptions = {
-    email: requesterEmail,
-  }
-  acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
-    if (err) return console.error(err);
-    if (appointments.length <= 0) {
-      console.log(`There are no appointments`)
-      reject(new Error('error getting acuity data deg'));
-    } else {
-      console.log(`appointments array length: ${appointments.length}`);
-      
+    // replace this with requester email later
+    let getAcuityData = new Promise((resolve, reject,requesterEmail) => {
+      appointmentOptions = {
+        email: requesterEmail,
+      }
+      acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
+        if (err) return console.error(err);
+        if (appointments.length <= 0) {
+          console.log(`There are no appointments`)
+          reject(new Error('error getting acuity data deg'));
+        } else {
+          console.log(`appointments array length: ${appointments.length}`);
+          
 
-      resolve(appointments);
-    }
-  })
-});
+          resolve(appointments);
+        }
+      })
+    });
 
 
 module.exports = router;
