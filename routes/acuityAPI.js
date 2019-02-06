@@ -13,7 +13,7 @@ moment().format();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(`Hit the acuity route`)
+  console.log(`${req.query.requesterName} Hit the acuity route with ${req.query.requesterEmail}`)
   // get ticket requester
   let requesterName = req.query.requesterName;
   let requesterEmail = req.query.requesterEmail;
@@ -74,7 +74,7 @@ async function doAcuityStuff(requesterEmail) {
       // today
       if(appointmentObjectToPush['difference']<0){
         dataForFrontEnd.pastAppointments.push(appointmentObjectToPush)
-      }else if (appointmentObjectToPush['difference']<0){
+      }else if (appointmentObjectToPush['difference']=0){
         dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
       }else if (appointmentObjectToPush['difference']>0){
         dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
