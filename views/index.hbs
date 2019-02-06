@@ -3,35 +3,10 @@
     <div class="card-body">
         <h4 style="text-decoration:underline">Acuity Schedule </h4>
 </div>
-<p id="ticketRequester"></p>
-<div class="previous_appt">
-    <p>Previous Appointment</p>
-    <ul class = "prevAppt">
-        {{#each prevAppt}}
-        <li>{{this}}</li>
-        {{else}}
-        <p class="empty">No Previous Appointments</p>
-        {{/each}}
-    </ul>
-    <button class="btn btn-primary" >Open Link</button>
-</div>
-<br>
-<div class="future_appt">
-    <p>Future Appointments</p>
-        <ul class = "futureAppt">
-        {{#each futureAppt}}
-        <li>{{this}}</li>
-        {{else}}
-        <p class="empty">No Future Appointments</p>
-        {{/each}}
-    </ul>
-    <button class="btn btn-primary" >Open Link</button>
-</div>
-<br>
-<div class="view_all">
-    <a href="/" style="font-size:12px">View all Appointments</a>
-
-</div>
+<p> Past Appointments</p>
+<p id="past"></p>
+<p id="date"></p>
+<p id="assignedTo"></p>
 
 
 <script type="text/javascript" src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
@@ -51,15 +26,26 @@
             {{!-- send ticket requester name to server api --}}
             axios.get(`http://localhost:3000/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
             .then(function (response) {
-                console.dir(`Got a response from the acuity api\n...\n Here comes data ${JSON.stringify(response.data,null," ")}`);
-                
-                
+                    for ( i = 0 ; i < response.data.futureAppointments.length ; i++){
+                    {{!-- document.getElementById("past").innerHTML = "requestor name: " + response.data.todaysAppointments[i].name --}}
+                    document.getElementById("past").innerHTML = "requestor name: " + response.data.pastAppointments[i].name
+                    document.getElementById("date").innerHTML = "requestor date: " + response.data.pastAppointments[i].date
+                    document.getElementById("assignedTo").innerHTML = "requestor assigne to: " + response.data.pastAppointments[i].assignedTo
+
+                } ;
+
+
+                {{!-- console.log(response.data.futureAppointments[0].name)
+                console.log(response.data.futureAppointments.length)
+                console.log(response.data) --}}
+           
+                console.log(response.data)
                 
             })
             .catch(function (error) {
                 console.log(error);
             });
         });
-
+    
 </script>
 
