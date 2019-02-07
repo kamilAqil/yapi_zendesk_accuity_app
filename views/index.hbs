@@ -1,51 +1,81 @@
-
 <div class="card">
     <div class="card-body">
         <h4 style="text-decoration:underline">Acuity Schedule </h4>
-</div>
-<p> Past Appointments</p>
-<p id="past"></p>
-<p id="date"></p>
-<p id="assignedTo"></p>
+    </div>
+    <h5 style="font-weight:bold"> Past Appointments</h5>
+    {{!-- <button type="button" onclick="pappointments()">Past Appt</button> --}}
+    <p id="pastapt"></p>
+  
+    <h5 style="font-weight:bold">Future Appointments</h5>
+    <p id="futureapt"></p>
+
+    <h5 style="font-weight:bold">Today's Appointments</h5>
+    <p id="todayapt"></p>
+  
 
 
-<script type="text/javascript" src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
-    let client = ZAFClient.init();
-    
-    {{!-- get ticket requester name --}}
+    <script type="text/javascript" src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        let res = null;
+        let client = ZAFClient.init();
 
-
-    client.get('ticket.requester').then(function(data){
+        //{ { !--get ticket requester name-- } }
+        client.get('ticket.requester').then(function (data) {
             data = data['ticket.requester'];
             let requesterName = data.name;
             let requesterEmail = data.email;
-
-
-            {{!-- send ticket requester name to server api --}}
+            //{ { !--send ticket requester name to server api-- } }
             axios.get(`http://localhost:3000/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
-            .then(function (response) {
-                    for ( i = 0 ; i < response.data.futureAppointments.length ; i++){
-                    {{!-- document.getElementById("past").innerHTML = "requestor name: " + response.data.todaysAppointments[i].name --}}
-                    document.getElementById("past").innerHTML = "requestor name: " + response.data.pastAppointments[i].name
-                    document.getElementById("date").innerHTML = "requestor date: " + response.data.pastAppointments[i].date
-                    document.getElementById("assignedTo").innerHTML = "requestor assigne to: " + response.data.pastAppointments[i].assignedTo
+                .then(function (response) {
 
-                } ;
+                        x = "", y="", z="";
+                        //PAST APPOINTMENTS
+                        
+                        console.log(response.data);
+                        if (response.data.pastAppointments) {
+                        for (let i in response.data.pastAppointments) {
+                            x += "<p style= 'padding:0; margin:0'> ID: " + response.data.pastAppointments[i].id + "</p>";
+                            x += "<p style= 'padding:0; margin:0'> Name: " + response.data.pastAppointments[i].name + "</p>";
+                            x += "<p style= 'padding:0; margin:0'> Date: " + response.data.pastAppointments[i].date + "</p>";
+                            x += "<p> Assigned To: " + response.data.pastAppointments[i].assignedTo + "</p>";
+                        }}
+                        if (response.data.futureAppointments) {
+                            //FUTURE APPOINTMENTS
+                            for (let i in response.data.futureAppointments) {
+                            y += "<p style= 'padding:0; margin:0'> ID: " + response.data.futureAppointments[i].id + "</p>";
+                            y += "<p style= 'padding:0; margin:0'> Name: " + response.data.futureAppointments[i].name + "</p>";
+                            y += "<p style= 'padding:0; margin:0'> Date: " + response.data.futureAppointments[i].date + "</p>";
+                            y += "<p> Assigned To: " + response.data.futureAppointments[i].assignedTo + "</p>";
+                        }}
+                            //TODAY'S APPOINTMENTS
+                        if (response.data.todaysAppointments) {
+                            for (let i in response.data.todaysAppointments) {
+                            z += "<p style= 'padding:0; margin:0'> ID: " + response.data.todaysAppointments[i].id + "</p>";
+                            z += "<p style= 'padding:0; margin:0'> Name: " + response.data.todaysAppointments[i].name + "</p>";
+                            z += "<p style= 'padding:0; margin:0'> Date: " + response.data.todaysAppointments[i].date + "</p>";
+                            z += "<p> Assigned To: " + response.data.todaysAppointments[i].assignedTo + "</p>";
+                            }}
 
+                        x.length === 0 ? x = 'No Past Appointments' : null;
+                        y.length === 0 ? y = 'No Future Appointments' : null;
+                        z.length === 0 ? z = 'No Appointments Today' : null;
+                        
+                        
+                        document.getElementById("pastapt").innerHTML = x;
+                        document.getElementById("futureapt").innerHTML = y;
+                        document.getElementById("todayapt").innerHTML = z;
 
-                {{!-- console.log(response.data.futureAppointments[0].name)
-                console.log(response.data.futureAppointments.length)
-                console.log(response.data) --}}
-           
-                console.log(response.data)
-                
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+                        // Button disabled var = false
+                        // store x y and z somewhere, maybe session storage or state or some equivalent
+                        // res = {x: x, y: y, z: z};
+                })
+
+                .catch(function (error) {
+                    console.log(error);
+                });
         });
-    
-</script>
-
+        // function paddsomething() {
+        //     document.getElementById('juiceythings').innerhtml = res.x
+        //}
+    </script>
