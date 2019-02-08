@@ -23,7 +23,7 @@ router.get('/', function(req, res, next) {
   
   
   
-  doAcuityStuff().then(function(data){
+  doAcuityStuff(requesterEmail).then(function(data){
     console.log(`data in accuity stuff function ${data}`)
     res.send(data)
   });
@@ -82,11 +82,13 @@ async function doAcuityStuff() {
     return dataForFrontEnd
 }
 // replace this with requester email later
-let getAcuityData = new Promise((resolve, reject) => {
+let getAcuityData = new Promise((resolve, reject,requesterName) => {
   appointmentOptions = {
     email: 'centralcalgaryperio@gmail.com',
   }
-  acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
+
+  console.log(`requesterName: ${appointmentOptions.email}`)
+  acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err,appointments,res) {
     if (err) return console.error(err);
     if (appointments.length <= 0) {
       console.log(`There are no appointments`)
