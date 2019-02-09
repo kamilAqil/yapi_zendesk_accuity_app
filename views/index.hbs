@@ -50,9 +50,7 @@
 
             {{!-- send ticket requester name to server api --}}
             axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`,{
-                headers: {
-                    'Access-Control-Allow-Origin': 'http://localhost:3000',
-                }
+                
             })
             .then(function (response) {
                 console.dir(`Got a response from the acuity api\n...\n Here comes data ${JSON.stringify(response.data,null," ")}`);
