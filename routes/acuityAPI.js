@@ -82,13 +82,13 @@ async function doAcuityStuff() {
     return dataForFrontEnd
 }
 // replace this with requester email later
-let getAcuityData = new Promise((resolve, reject) => {
+let getAcuityData = new Promise((resolve, reject,requesterName) => {
   appointmentOptions = {
     email: 'centralcalgaryperio@gmail.com',
   }
 
   console.log(`requesterName: ${appointmentOptions.email}`)
-  acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err,appointments,res) {
+  acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
     if (err) return console.error(err);
     if (appointments.length <= 0) {
       console.log(`There are no appointments`)

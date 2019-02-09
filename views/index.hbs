@@ -49,7 +49,11 @@
 
 
             {{!-- send ticket requester name to server api --}}
-            axios.get(`https://tranquil-sierra-92404.herokuapp.com/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
+            axios.get(`https://tranquil-sierra-92404.herokuapp.com/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`,{
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                }
+            })
             .then(function (response) {
                 console.dir(`Got a response from the acuity api\n...\n Here comes data ${JSON.stringify(response.data,null," ")}`);
                 
