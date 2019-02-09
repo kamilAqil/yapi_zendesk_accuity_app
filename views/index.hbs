@@ -49,9 +49,9 @@
 
 
             {{!-- send ticket requester name to server api --}}
-            axios.get(`https://tranquil-sierra-92404.herokuapp.com/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`,{
+            axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`,{
                 headers: {
-                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
                 }
             })
             .then(function (response) {
@@ -61,7 +61,7 @@
                 
             })
             .catch(function (error) {
-                console.log(error);
+                console.log(`Something went wrong with the axios request ${error}`);
             });
         });
 

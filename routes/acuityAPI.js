@@ -1,6 +1,5 @@
 let express = require('express');
 let router = express.Router();
-const JSON = require('circular-json');
 let Acuity = require('acuityscheduling');
 let userId = process.env.ACUITY_USER_ID;
 let apiKey = process.env.ACUITY_API_TOKEN;
@@ -17,6 +16,11 @@ router.get('/', function(req, res, next) {
   // get ticket requester
   let requesterName = req.query.requesterName;
   let requesterEmail = req.query.requesterEmail;
+
+  console.log(`The Acuity Route was hit with ${req}\n
+              The requester is ${requesterName}\n
+              the requeter email is ${requesterEmail}
+              preparing to do acuity stuff\n`);
 
   // configure appointment options
   // with requester name and e-mail
