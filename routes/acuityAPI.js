@@ -12,7 +12,7 @@ moment().format();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  
+  console.log(`${req.query.requesterName} Hit the acuity route with ${req.query.requesterEmail}`)
   // get ticket requester
   let requesterName = req.query.requesterName;
   const requesterEmail = req.query.requesterEmail;
@@ -30,13 +30,16 @@ router.get('/', function(req, res, next) {
     console.log(`data in accuity stuff function ${data}`)
     res.send(data)
   }).catch((err)=>{
+
     console.log(`doAcuityStuff async function err ${err}`)
     res.send(err)
+
   });
+  
 });
 
 async function doAcuityStuff(requesterEmail) {
-  console.log(`running doAcuityStuff()`)
+
   let dataForFrontEnd = {
       pastAppointments : [],
       todaysAppointments : [],
@@ -46,6 +49,7 @@ async function doAcuityStuff(requesterEmail) {
   // trim acuity data here and return trimmed data
   // for each object extract the appointment ID, name, 
   // appointment date
+
   
    await getAcuityData(requesterEmail).then((data)=>{
       // console.log(`Got data from getAcuityData() ${JSON.stringify(data, null, " ")}`)
@@ -73,6 +77,7 @@ async function doAcuityStuff(requesterEmail) {
         let today = moment();
 
         today.utc();
+
 
         let timeToCompare = moment(appointmentObjectToPush['dateToTest']);
 
@@ -109,6 +114,7 @@ async function doAcuityStuff(requesterEmail) {
         
     return dataForFrontEnd
 }
+
 
 
 let getAcuityData = function(requesterEmail){
@@ -163,6 +169,26 @@ let getAcuityData = function(requesterEmail){
 //         }
 //       })
 // });
+
+    // replace this with requester email later
+    let getAcuityData = new Promise((resolve, reject,requesterEmail) => {
+      appointmentOptions = {
+        email: requesterEmail,
+      }
+      acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
+        if (err) return console.error(err);
+        if (appointments.length <= 0) {
+          console.log(`There are no appointments`)
+          new Error('error getting acuity data deg');
+        } else {
+          console.log(`appointments array length: ${appointments.length}`);
+          
+
+          resolve(appointments);
+        }
+      })
+    });
+
 
 
 module.exports = router;
