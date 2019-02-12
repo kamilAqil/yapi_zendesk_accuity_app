@@ -24,7 +24,7 @@
             let requesterEmail = data.email;
 
             //{ { !--send ticket requester name to server api-- } }
-            axios.get(`http://localhost:3000/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
+            axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
                 .then(function (response) {
                         
                         x = "", y="", z="";color=["#C904D2","#0000","c#cccc" ]
