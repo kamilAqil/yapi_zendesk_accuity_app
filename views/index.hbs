@@ -76,8 +76,11 @@
 
 
             {{!-- send ticket requester name to server api --}}
-            {{!-- woo --}}
-            axios.get(`http://localhost:3000/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
+
+            axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`,{
+                
+            })
+
             .then(function (response) {
                 console.dir(`Got a response from the acuity api\n...\n Here comes data ${JSON.stringify(response.data,null," ")}`);
                 
@@ -85,7 +88,9 @@
                 
             })
             .catch(function (error) {
-                console.log(`There are no appointments for ${requesterName}`);
+
+                console.log(`Something went wrong with the axios request ${error}`);
+
             });
         });
 
