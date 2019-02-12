@@ -13,7 +13,7 @@ moment().format();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  
+  console.log(`${req.query.requesterName} Hit the acuity route with ${req.query.requesterEmail}`)
   // get ticket requester
   let requesterName = req.query.requesterName;
   let requesterEmail = req.query.requesterEmail;
@@ -23,13 +23,17 @@ router.get('/', function(req, res, next) {
   
   
   
-  doAcuityStuff().then(function(data){
+  doAcuityStuff(requesterEmail).then(function(data){
     console.log(`data in accuity stuff function ${data}`)
     res.send(data)
+  }).catch((err)=>{
+    console.log(`error getting acuity data:${err}`)
+    res.send(`error getting acuity data`)
   });
+  
 });
 
-async function doAcuityStuff() {
+async function doAcuityStuff(requesterEmail) {
   
   let dataForFrontEnd = {
       pastAppointments : [],
@@ -71,7 +75,7 @@ async function doAcuityStuff() {
       // today
       if(appointmentObjectToPush['difference']<0){
         dataForFrontEnd.pastAppointments.push(appointmentObjectToPush)
-      }else if (appointmentObjectToPush['difference']<0){
+      }else if (appointmentObjectToPush['difference']=0){
         dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
       }else if (appointmentObjectToPush['difference']>0){
         dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
@@ -81,24 +85,24 @@ async function doAcuityStuff() {
         
     return dataForFrontEnd
 }
-// replace this with requester email later
-let getAcuityData = new Promise((resolve, reject) => {
-  appointmentOptions = {
-    email: 'centralcalgaryperio@gmail.com',
-  }
-  acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
-    if (err) return console.error(err);
-    if (appointments.length <= 0) {
-      console.log(`There are no appointments`)
-      reject(new Error('error getting acuity data deg'));
-    } else {
-      console.log(`appointments array length: ${appointments.length}`);
-      
+    // replace this with requester email later
+    let getAcuityData = new Promise((resolve, reject,requesterEmail) => {
+      appointmentOptions = {
+        email: requesterEmail,
+      }
+      acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
+        if (err) return console.error(err);
+        if (appointments.length <= 0) {
+          console.log(`There are no appointments`)
+          new Error('error getting acuity data deg');
+        } else {
+          console.log(`appointments array length: ${appointments.length}`);
+          
 
-      resolve(appointments);
-    }
-  })
-});
+          resolve(appointments);
+        }
+      })
+    });
 
 
 module.exports = router;

@@ -22,6 +22,7 @@
             data = data['ticket.requester'];
             let requesterName = data.name;
             let requesterEmail = data.email;
+
             //{ { !--send ticket requester name to server api-- } }
             axios.get(`http://localhost:3000/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
                 .then(function (response) {
@@ -71,6 +72,23 @@
                         document.getElementById("demo").innerHTML = x;
                         document.getElementById("demo1").innerHTML = y;
                         document.getElementById("demo2").innerHTML = z;
+
+
+
+            {{!-- send ticket requester name to server api --}}
+            {{!-- woo --}}
+            axios.get(`http://localhost:3000/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
+            .then(function (response) {
+                console.dir(`Got a response from the acuity api\n...\n Here comes data ${JSON.stringify(response.data,null," ")}`);
+                
+                
+                
+            })
+            .catch(function (error) {
+                console.log(`There are no appointments for ${requesterName}`);
+            });
+        });
+
 
                         // Button disabled var = false
                         // store x y and z somewhere, maybe session storage or state or some equivalent
