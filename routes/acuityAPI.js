@@ -19,8 +19,7 @@ router.get('/', function(req, res, next) {
 
   console.log(`The Acuity Route was hit with ${req}\n
               The requester is ${requesterName}\n
-              the requeter email is ${requesterEmail}
-              preparing to do acuity stuff\n`);
+              the requeter email is ${requesterEmail}`);
 
   // configure appointment options
   // with requester name and e-mail
@@ -32,6 +31,7 @@ router.get('/', function(req, res, next) {
     res.send(data)
   }).catch((err)=>{
     console.log(`doAcuityStuff async function err ${err}`)
+    res.send(err)
   });
 });
 
@@ -48,7 +48,7 @@ async function doAcuityStuff() {
   // for each object extract the appointment ID, name, 
   // appointment date
     getAcuityData.then((data)=>{
-
+      console.log(`running getAcuity()`)
       data.forEach(element => {
 
         let dateToTest = new Date(element['date']).toISOString();
@@ -97,74 +97,34 @@ async function doAcuityStuff() {
         return dataForFrontEnd
       });
     }).catch((err)=>{
-      console.log(`Acuity Promise err ${err}`)
+      console.log(`Acuity Promise err ${err}`);
     });
 
-    dataFromAcuityPromise.catch((err)=>{
-      console.log(`dataFromAcuityPromise error ${err}`)
-    })
-    // dataFromAcuityPromise.forEach(element => {
-    //   let dateToTest = new Date(element['date']).toISOString();
-    //   let appointmentObjectToPush = {
-    //     id: element['id'],
-    //     name: element['firstName'],
-    //     date: dateToTest,
-    //     assignedTo: element['calendar'],
-    //     difference : undefined
-    //   }
-      
+   
 
-    //   // if appointmentObjectToPush date is before today
-    //   // push object to pastAppointments array, if date
-    //   // is after appointmentObjectToPush date push object
-    //   // to future appointments
-    //   let today = moment();
-    //   today.utc();
-    //   let timeToCompare = moment(appointmentObjectToPush['date']);
-    //   timeToCompare.format();
-    //   let difference = timeToCompare.diff(today,'days');
-      
-    //   appointmentObjectToPush['difference'] = difference
-    //   console.log(`pushing appointment`)
-      
-    //   // test appointmentObject difference and if 
-    //   // difference is positive it is an upcoming appt
-    //   // if it is a negative difference then it is a past 
-    //   // appt and if there is no difference it is an appointment 
-    //   // today
-    //   if(appointmentObjectToPush['difference']<0){
-    //     dataForFrontEnd.pastAppointments.push(appointmentObjectToPush)
-    //   }else if (appointmentObjectToPush['difference']<0){
-    //     dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
-    //   }else if (appointmentObjectToPush['difference']>0){
-    //     dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
-    //   }
-
-    // });
         
     return dataForFrontEnd
 }
 // replace this with requester email later
 let getAcuityData = new Promise((resolve, reject,requesterName) => {
-  appointmentOptions = {
-    email: requesterName,
-  }
+  
+      appointmentOptions = {
+        email: requesterName,
+      }
 
+      console.log(`going to getAcuityData for requesterName: ${appointmentOptions.email}`)
+      acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
+        if (err) return console.error(err);
+        if (appointments.length <= 0) {
+          console.log(`There are no appointments`)
+          // reject(new Error('error getting acuity data deg'));
+        } else {
+          console.log(`appointments array length: ${appointments.length}`);
+          
 
-
-  console.log(`requesterName: ${appointmentOptions.email}`)
-  acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
-    if (err) return console.error(err);
-    if (appointments.length <= 0) {
-      console.log(`There are no appointments`)
-      reject(new Error('error getting acuity data deg'));
-    } else {
-      console.log(`appointments array length: ${appointments.length}`);
-      
-
-      resolve(appointments);
-    }
-  })
+          resolve(appointments);
+        }
+      })
 });
 
 
