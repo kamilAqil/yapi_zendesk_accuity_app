@@ -35,29 +35,33 @@ router.get('/', function(req, res, next) {
   });
 });
 
-async function doAcuityStuff() {
-  
+async function doAcuityStuff(requesterEmail) {
+  console.log(`running doAcuityStuff()`)
   let dataForFrontEnd = {
       pastAppointments : [],
       todaysAppointments : [],
       futureAppointments : []
   }
-  // let dataFromAcuityPromise = new getAcuityData
-  // let dataFromAcuityPromise = await getAcuityData;
+
   // trim acuity data here and return trimmed data
   // for each object extract the appointment ID, name, 
   // appointment date
-    getAcuityData.then((data)=>{
-      console.log(`running getAcuity()`)
+  
+   await getAcuityData(requesterEmail).then((data)=>{
+      // console.log(`Got data from getAcuityData() ${JSON.stringify(data, null, " ")}`)
       data.forEach(element => {
-
+        console.log(`Element : ${element}`)
         let dateToTest = new Date(element['date']).toISOString();
 
         let appointmentObjectToPush = {
           id: element['id'],
           name: element['firstName'],
-          date: dateToTest,
+          date: element['date'],
+          dateToTest: dateToTest,
           assignedTo: element['calendar'],
+          time : element['time'],
+          type: element['type'],
+          notes: element['notes'],
           difference : undefined
         }
 
@@ -70,7 +74,7 @@ async function doAcuityStuff() {
 
         today.utc();
 
-        let timeToCompare = moment(appointmentObjectToPush['date']);
+        let timeToCompare = moment(appointmentObjectToPush['dateToTest']);
 
         timeToCompare.format();
 
@@ -105,27 +109,60 @@ async function doAcuityStuff() {
         
     return dataForFrontEnd
 }
-// replace this with requester email later
-let getAcuityData = new Promise((resolve, reject,requesterName) => {
-  
-      appointmentOptions = {
-        email: requesterName,
-      }
 
-      console.log(`going to getAcuityData for requesterName: ${appointmentOptions.email}`)
-      acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
-        if (err) return console.error(err);
-        if (appointments.length <= 0) {
-          console.log(`There are no appointments`)
-          // reject(new Error('error getting acuity data deg'));
-        } else {
-          console.log(`appointments array length: ${appointments.length}`);
+
+let getAcuityData = function(requesterEmail){
+  return new Promise((resolve, reject) => {
+
+          appointmentOptions = {
+            email: 'office@drjhalpern.com',
+          }
+
+          // appointmentOptions = {
+          //   email: requesterEmail,
+          // }
+          
+          // office@drjhalpern.com
+
+
+          console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}`)
+          acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
+            if (err) return console.error(err);
+            if (appointments.length <= 0) {
+              console.log(`There are no appointments`)
+              // reject(new Error('error getting acuity data deg'));
+              resolve(appointments);
+            } else {
+              console.log(`appointments array length: ${appointments.length}`);
+              
+    
+              resolve(appointments);
+            }
+          })
+    });
+}
+
+// replace this with requester email later
+// let getAcuityData = new Promise((resolve, reject,requesterEmail) => {
+  
+//       appointmentOptions = {
+//         email: requesterEmail,
+//       }
+
+//       console.log(`going to getAcuityData for requesterName: ${appointmentOptions.email}`)
+//       acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
+//         if (err) return console.error(err);
+//         if (appointments.length <= 0) {
+//           console.log(`There are no appointments`)
+//           // reject(new Error('error getting acuity data deg'));
+//         } else {
+//           console.log(`appointments array length: ${appointments.length}`);
           
 
-          resolve(appointments);
-        }
-      })
-});
+//           resolve(appointments);
+//         }
+//       })
+// });
 
 
 module.exports = router;
