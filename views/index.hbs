@@ -1,17 +1,14 @@
-<div class="card">
-    <div class="card-body">
-        <h4 style="text-decoration:underline">Acuity Schedule </h4>
-    </div>
-    <h5 style="font-weight:bold"> Past Appointments</h5>
-    {{!-- <button type="button" onclick="pappointments()">Past Appt</button> --}}
-    <p id="pastapt"></p>
-  
-    <h5 style="font-weight:bold">Future Appointments</h5>
-    <p id="futureapt"></p>
 
-    <h5 style="font-weight:bold">Today's Appointments</h5>
-    <p id="todayapt"></p>
-  
+    <p class="pastbar"> Past Appointments</p>
+    {{!-- <button type="button" onclick="pappointments()">Past Appt</button> --}}
+    <p id="demo"></p>
+
+    <p class="pastbar">Future Appointments</p>
+    <p id="demo1"></p>
+
+    <p class="pastbar">Today's Appointments</p>
+    <p id="demo2"></p>
+
 
 
     <script type="text/javascript" src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
@@ -28,17 +25,26 @@
             //{ { !--send ticket requester name to server api-- } }
             axios.get(`http://localhost:3000/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
                 .then(function (response) {
-
-                        x = "", y="", z="";
+                        
+                        x = "", y="", z="";color=["#C904D2","#0000","c#cccc" ]
                         //PAST APPOINTMENTS
                         
                         console.log(response.data);
+                        const listItems = document.getElementById('rainbow')
                         if (response.data.pastAppointments) {
+                            for (var i = 0; i<colors.length; i++){
+                                listItems[i].style.color = colors[i];
+                            }
                         for (let i in response.data.pastAppointments) {
-                            x += "<p style= 'padding:0; margin:0'> ID: " + response.data.pastAppointments[i].id + "</p>";
+                            x += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + "THURSDAY, FEBRUARY 14, 2019 " + "</p>";
+                            x += "<div class='raindbow'></div><p class = 'rowTwo'style= ' margin:0'>" + "8:00AM " + " Ian " + "</p>";
+                            x += "<p class = 'rowThree' style= 'padding:0; margin:0'>" + "INSTALLATION | MICHAEL LEE FORM 9:00AM - 11:00AM |" + response.data.pastAppointments[i].assignedTo + "</p>";
+                            x += "<p class = 'notes'>" + "https://yapi.zendesk.com/agent/tickets/109203" + "</p>";
+                            
+                            {{!-- x += "<p style= 'padding:0; margin:0'> Date: " + response.data.pastAppointments[i].date + "</p>";
                             x += "<p style= 'padding:0; margin:0'> Name: " + response.data.pastAppointments[i].name + "</p>";
-                            x += "<p style= 'padding:0; margin:0'> Date: " + response.data.pastAppointments[i].date + "</p>";
-                            x += "<p> Assigned To: " + response.data.pastAppointments[i].assignedTo + "</p>";
+                            x += "<p style= 'padding:0; margin:0'> ID: " + response.data.pastAppointments[i].id + "</p>";
+                            x += "<p> Assigned To: " + response.data.pastAppointments[i].assignedTo + "</p>"; --}}
                         }}
                         if (response.data.futureAppointments) {
                             //FUTURE APPOINTMENTS
@@ -59,12 +65,12 @@
 
                         x.length === 0 ? x = 'No Past Appointments' : null;
                         y.length === 0 ? y = 'No Future Appointments' : null;
-                        z.length === 0 ? z = 'No Appointments Today' : null;
+                        z.length === 0 ? z = 'No Past Appointments' : null;
                         
                         
-                        document.getElementById("pastapt").innerHTML = x;
-                        document.getElementById("futureapt").innerHTML = y;
-                        document.getElementById("todayapt").innerHTML = z;
+                        document.getElementById("demo").innerHTML = x;
+                        document.getElementById("demo1").innerHTML = y;
+                        document.getElementById("demo2").innerHTML = z;
 
                         // Button disabled var = false
                         // store x y and z somewhere, maybe session storage or state or some equivalent
