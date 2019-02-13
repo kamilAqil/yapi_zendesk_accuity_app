@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
   
   
   doAcuityStuff(requesterEmail).then(function(data){
-    console.log(`data in accuity stuff function ${data}`)
+    console.log(`data in accuity stuff function ${JSON.stringify(data,null," ")}`)
     res.send(data)
   }).catch((err)=>{
 
@@ -54,7 +54,7 @@ async function doAcuityStuff(requesterEmail) {
    await getAcuityData(requesterEmail).then((data)=>{
       console.log(`Got data from getAcuityData() ${JSON.stringify(data, null, " ")}`)
       data.forEach(element => {
-        console.log(`Element : ${element}`)
+        // console.log(`Element : ${element}`)
         let dateToTest = new Date(element['date']).toISOString();
 
         let appointmentObjectToPush = {
@@ -64,10 +64,13 @@ async function doAcuityStuff(requesterEmail) {
           dateToTest: dateToTest,
           assignedTo: element['calendar'],
           time : element['time'],
+          endTime : element['endTime'],
           type: element['type'],
           notes: element['notes'],
           difference : undefined
         }
+
+        console.log(`appointmentObject to push ${JSON.stringify(appointmentObjectToPush, null, " ")}`);
 
         // if appointmentObjectToPush date is before today
         // push object to pastAppointments array, if date
