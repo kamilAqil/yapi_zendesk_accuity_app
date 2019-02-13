@@ -32,13 +32,15 @@
             axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
                 .then(function (response) {
                         //console.log(response.data);
+
                         x = "", y="", z="";
                         //PAST APPOINTMENTS
                         if (response.data.pastAppointments) {
+                            
                         for (let i in response.data.pastAppointments) {
                             x += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
-                            x += "<div class='box'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
-                            x += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + "5:00pm " + "to " + "6:00pm "+ "</p>";
+                            x += "<div class='box' id='red'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
+                            x += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time + " to " + response.data.pastAppointments[i].endtime + "</p>";
                             x += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
                         
                         }}
@@ -47,7 +49,7 @@
                             for (let i in response.data.futureAppointments) {
                             y += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
                             y += "<div class='box'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
-                            Y += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + "5:00pm " + "to " + "6:00pm "+ "</p>";
+                            Y += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time  + " to " + response.data.pastAppointments[i].endtime + "</p>";
                             y += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
                         }}
                             //TODAY'S APPOINTMENTS
@@ -55,7 +57,7 @@
                             for (let i in response.data.todaysAppointments) {
                             z += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
                             z += "<div class='box'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
-                            z += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + "5:00pm " + "to " + "6:00pm "+ "</p>";
+                            z += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time + " to " + response.data.pastAppointments[i].endtime + "</p>";
                             z += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
                             }}
 
@@ -72,18 +74,11 @@
 
 
         });
-
-
-                        // Button disabled var = false
-                        // store x y and z somewhere, maybe session storage or state or some equivalent
-                        // res = {x: x, y: y, z: z};
                 })
 
                 .catch(function (error) {
                     console.log(error);
                 });
         
-        // function paddsomething() {
-        //     document.getElementById('juiceythings').innerhtml = res.x
-        //}
+
     </script>
