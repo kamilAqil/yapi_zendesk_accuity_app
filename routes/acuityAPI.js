@@ -12,7 +12,7 @@ moment().format();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(`${req.query.requesterName} Hit the acuity route with ${req.query.requesterEmail}`)
+  // console.log(`${req.query.requesterName} Hit the acuity route with ${req.query.requesterEmail}`)
   // get ticket requester
   let requesterName = req.query.requesterName;
   const requesterEmail = req.query.requesterEmail;
@@ -84,7 +84,6 @@ async function doAcuityStuff(requesterEmail) {
         timeToCompare.format();
 
         let difference = timeToCompare.diff(today,'days');
-        
         appointmentObjectToPush['difference'] = difference
 
         // test appointmentObject difference and if 
@@ -109,28 +108,17 @@ async function doAcuityStuff(requesterEmail) {
       console.log(`Acuity Promise err ${err}`);
     });
 
-   
-
-        
     return dataForFrontEnd
 }
 
-
-
 let getAcuityData = function(requesterEmail){
   return new Promise((resolve, reject) => {
-
           appointmentOptions = {
             email: 'office@drjhalpern.com',
           }
-
           // appointmentOptions = {
           //   email: requesterEmail,
           // }
-          
-          // office@drjhalpern.com
-
-
           console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}`)
           acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
             if (err) return console.error(err);
