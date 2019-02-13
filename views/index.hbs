@@ -4,14 +4,22 @@
             {{!-- <button type="button" onclick="pappointments()">Past Appt</button> --}}
             <p id="demo"></p>
 
-            <p class="pastbar">Future Appointments</p>
-            <p id="demo1"></p>
+    
+    
+    <div style="height:710px;">
+    <p class="pastbar">Today's Appointments</p>
+    <p id="apptToday"></p> 
+     
+    <p class="pastbar">Future Appointments</p>
+    <p id="apptFuture"></p>
+    
+    <p class="pastbar"> Past Appointments</p>
+    {{!-- <button type="button" onclick="pappointments()">Past Appt</button> --}}
+    <p id="apptPast"></p>
 
-            <p class="pastbar">Today's Appointments</p>
-            <p id="demo2"></p>
+
+
     </div>
-   
-
 
 
     <script type="text/javascript" src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
@@ -29,68 +37,54 @@
             //{ { !--send ticket requester name to server api-- } }
             axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
                 .then(function (response) {
-                        
-                        x = "", y="", z="";color=["#C904D2","#0000","c#cccc" ]
+                        //console.log(response.data);
+
+                        x = "", y="", z="";
                         //PAST APPOINTMENTS
-                        
-                        console.log(response.data);
-                        const listItems = document.getElementById('rainbow')
                         if (response.data.pastAppointments) {
-                            for (var i = 0; i<color.length; i++){
-                                {{!-- listItems[i].style.color = colors[i]; --}}
-                            }
-                        for (let i in response.data.pastAppointments) {
-                            x += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + "THURSDAY, FEBRUARY 14, 2019 " + "</p>";
-                            x += "<div class='raindbow'></div><p class = 'rowTwo'style= ' margin:0'>" + "8:00AM " + " Ian " + "</p>";
-                            x += "<p class = 'rowThree' style= 'padding:0; margin:0'>" + "INSTALLATION | MICHAEL LEE FORM 9:00AM - 11:00AM |" + response.data.pastAppointments[i].assignedTo + "</p>";
-                            x += "<p class = 'notes'>" + "https://yapi.zendesk.com/agent/tickets/109203" + "</p>";
                             
-                            {{!-- x += "<p style= 'padding:0; margin:0'> Date: " + response.data.pastAppointments[i].date + "</p>";
-                            x += "<p style= 'padding:0; margin:0'> Name: " + response.data.pastAppointments[i].name + "</p>";
-                            x += "<p style= 'padding:0; margin:0'> ID: " + response.data.pastAppointments[i].id + "</p>";
-                            x += "<p> Assigned To: " + response.data.pastAppointments[i].assignedTo + "</p>"; --}}
+                        for (let i in response.data.pastAppointments) {
+                            x += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
+                            x += "<div class='box' id='red'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
+                            x += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time + " to " + response.data.pastAppointments[i].endtime + "</p>";
+                            x += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
+                        
                         }}
                         if (response.data.futureAppointments) {
                             //FUTURE APPOINTMENTS
                             for (let i in response.data.futureAppointments) {
-                            y += "<p style= 'padding:0; margin:0'> ID: " + response.data.futureAppointments[i].id + "</p>";
-                            y += "<p style= 'padding:0; margin:0'> Name: " + response.data.futureAppointments[i].name + "</p>";
-                            y += "<p style= 'padding:0; margin:0'> Date: " + response.data.futureAppointments[i].date + "</p>";
-                            y += "<p> Assigned To: " + response.data.futureAppointments[i].assignedTo + "</p>";
+                            y += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
+                            y += "<div class='box'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
+                            Y += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time  + " to " + response.data.pastAppointments[i].endtime + "</p>";
+                            y += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
                         }}
                             //TODAY'S APPOINTMENTS
                         if (response.data.todaysAppointments) {
                             for (let i in response.data.todaysAppointments) {
-                            z += "<p style= 'padding:0; margin:0'> ID: " + response.data.todaysAppointments[i].id + "</p>";
-                            z += "<p style= 'padding:0; margin:0'> Name: " + response.data.todaysAppointments[i].name + "</p>";
-                            z += "<p style= 'padding:0; margin:0'> Date: " + response.data.todaysAppointments[i].date + "</p>";
-                            z += "<p> Assigned To: " + response.data.todaysAppointments[i].assignedTo + "</p>";
+                            z += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
+                            z += "<div class='box'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
+                            z += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time + " to " + response.data.pastAppointments[i].endtime + "</p>";
+                            z += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
                             }}
 
+                        //If no appointments, display this
                         x.length === 0 ? x = 'No Past Appointments' : null;
                         y.length === 0 ? y = 'No Future Appointments' : null;
-                        z.length === 0 ? z = 'No Past Appointments' : null;
+                        z.length === 0 ? z = 'No Appointments Today' : null;
                         
-                        
-                        document.getElementById("demo").innerHTML = x;
-                        document.getElementById("demo1").innerHTML = y;
-                        document.getElementById("demo2").innerHTML = z;
+                        //Display the data in HTML
+                        document.getElementById("apptPast").innerHTML = x;
+                        document.getElementById("apptFuture").innerHTML = y;
+                        document.getElementById("apptToday").innerHTML = z;
 
 
 
         });
-
-
-                        // Button disabled var = false
-                        // store x y and z somewhere, maybe session storage or state or some equivalent
-                        // res = {x: x, y: y, z: z};
                 })
 
                 .catch(function (error) {
                     console.log(error);
                 });
         
-        // function paddsomething() {
-        //     document.getElementById('juiceythings').innerhtml = res.x
-        //}
+
     </script>

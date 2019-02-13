@@ -52,7 +52,7 @@ async function doAcuityStuff(requesterEmail) {
 
   
    await getAcuityData(requesterEmail).then((data)=>{
-      // console.log(`Got data from getAcuityData() ${JSON.stringify(data, null, " ")}`)
+      console.log(`Got data from getAcuityData() ${JSON.stringify(data, null, " ")}`)
       data.forEach(element => {
         console.log(`Element : ${element}`)
         let dateToTest = new Date(element['date']).toISOString();
