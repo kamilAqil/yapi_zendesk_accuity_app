@@ -120,13 +120,13 @@ async function doAcuityStuff(requesterEmail) {
 let getAcuityData = function(requesterEmail){
   return new Promise((resolve, reject) => {
 
-          // appointmentOptions = {
-          //   email: 'office@drjhalpern.com',
-          // }
-
           appointmentOptions = {
-            email: requesterEmail,
+            email: 'office@drjhalpern.com',
           }
+
+          // appointmentOptions = {
+          //   email: requesterEmail,
+          // }
           
           // office@drjhalpern.com
 
