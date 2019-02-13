@@ -52,7 +52,7 @@ async function doAcuityStuff(requesterEmail) {
 
   
    await getAcuityData(requesterEmail).then((data)=>{
-      // console.log(`Got data from getAcuityData() ${JSON.stringify(data, null, " ")}`)
+      console.log(`Got data from getAcuityData() ${JSON.stringify(data, null, " ")}`)
       data.forEach(element => {
         console.log(`Element : ${element}`)
         let dateToTest = new Date(element['date']).toISOString();
@@ -120,13 +120,13 @@ async function doAcuityStuff(requesterEmail) {
 let getAcuityData = function(requesterEmail){
   return new Promise((resolve, reject) => {
 
-          // appointmentOptions = {
-          //   email: 'office@drjhalpern.com',
-          // }
-
           appointmentOptions = {
-            email: requesterEmail,
+            email: 'office@drjhalpern.com',
           }
+
+          // appointmentOptions = {
+          //   email: requesterEmail,
+          // }
           
           // office@drjhalpern.com
 
