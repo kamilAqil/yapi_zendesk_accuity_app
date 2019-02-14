@@ -69,6 +69,9 @@ async function doAcuityStuff(requesterEmail) {
 
         // console.log(`object of colors : ${JSON.stringify(objOfColors)}`)
         let colorOfAppt = objOfColors[`${element['type']}`]
+        if (colorOfAppt === undefined){
+          colorOfAppt = "black"
+        }
 
         let dateToTest = new Date(element['date']).toISOString();
 
