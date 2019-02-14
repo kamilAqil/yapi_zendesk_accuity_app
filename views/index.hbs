@@ -37,29 +37,45 @@
                         //PAST APPOINTMENTS
                         if (response.data.pastAppointments) {
                             
-                        for (let i in response.data.pastAppointments) {
-                            x += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
-                            x += "<div class='box' id='red'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
-                            x += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time + " to " + response.data.pastAppointments[i].endtime + "</p>";
-                            x += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
-                        
-                        }}
+                            for (let i in response.data.pastAppointments) {
+                                let color;
+                                const pastApt = response.data.pastAppointments[i];
+
+                                if (pastApt.type == "PATIENT REVIEWS SETUP") {
+                                    color = 'red'
+                                } else if(pastApt.type == "TRAINING SESSION"){
+                                    color = 'blue'
+                                } else if(pastApt.type == "REMINDERS AND AUTOMATION SETUP"){
+                                    color = 'green' 
+                                }
+
+
+                                x += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + pastApt.date + "</p>";
+                                x += "<div class='box " + color + "'></div><p class = 'rowTwo' style= ' margin:0'>" + pastApt.time  + " " + pastApt.name + "</p>";
+                                x += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + pastApt.type + " | " + pastApt.assignedTo + " | " + pastApt.time + " to " + pastApt.endtime + "</p>";
+                                x += "<p class = 'notes'>" + pastApt.notes + "</p>";''
+
+                            }   
+                        }
+                        //FUTURE APPOINTMENTS
                         if (response.data.futureAppointments) {
-                            //FUTURE APPOINTMENTS
+                            
                             for (let i in response.data.futureAppointments) {
                             y += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
                             y += "<div class='box'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
                             Y += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time  + " to " + response.data.pastAppointments[i].endtime + "</p>";
                             y += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
-                        }}
-                            //TODAY'S APPOINTMENTS
+                            }
+                        }
+                        //TODAY'S APPOINTMENTS
                         if (response.data.todaysAppointments) {
                             for (let i in response.data.todaysAppointments) {
                             z += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
                             z += "<div class='box'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
                             z += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time + " to " + response.data.pastAppointments[i].endtime + "</p>";
                             z += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
-                            }}
+                            }
+                        }
 
                         //If no appointments, display this
                         x.length === 0 ? x = 'No Past Appointments' : null;

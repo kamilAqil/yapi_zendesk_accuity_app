@@ -7,7 +7,6 @@ body {
 .box{
   width:15px;
   height: 20px;
-  background:#C904D2;
   display: inline-block;
 }
 
@@ -33,9 +32,6 @@ body {
   text-transform:uppercase;
 }
 
-.rowFour{
-  
-}
 
 a {
   color: #00B7FF;
