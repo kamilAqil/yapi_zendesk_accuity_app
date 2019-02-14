@@ -12,7 +12,7 @@ moment().format();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // console.log(`${req.query.requesterName} Hit the acuity route with ${req.query.requesterEmail}`)
+  
   // get ticket requester
   let requesterName = req.query.requesterName;
   const requesterEmail = req.query.requesterEmail;
@@ -27,11 +27,11 @@ router.get('/', function(req, res, next) {
   
   
   doAcuityStuff(requesterEmail).then(function(data){
-    console.log(`data in accuity stuff function ${JSON.stringify(data,null," ")}`)
+    // console.log(`data in accuity stuff function ${JSON.stringify(data,null," ")}`)
     res.send(data)
   }).catch((err)=>{
 
-    console.log(`doAcuityStuff async function err ${err}`)
+    // console.log(`doAcuityStuff async function err ${err}`)
     res.send(err)
 
   });
@@ -46,15 +46,30 @@ async function doAcuityStuff(requesterEmail) {
       futureAppointments : []
   }
 
+  let objOfColors = {
+
+  }
   // trim acuity data here and return trimmed data
   // for each object extract the appointment ID, name, 
   // appointment date
 
+
+  await getAcuityColors().then((data)=>{
+    
+    // console.log(`got acuity colors ${JSON.stringify(data,null," ")}`)
+    data.forEach((el)=>{
+      objOfColors[`${el['name']}`] = el['color'];
+      
+    });
+  });
   
    await getAcuityData(requesterEmail).then((data)=>{
       console.log(`Got data from getAcuityData() ${JSON.stringify(data, null, " ")}`)
       data.forEach(element => {
-        // console.log(`Element : ${element}`)
+
+        // console.log(`object of colors : ${JSON.stringify(objOfColors)}`)
+        let colorOfAppt = objOfColors[`${element['type']}`]
+
         let dateToTest = new Date(element['date']).toISOString();
 
         let appointmentObjectToPush = {
@@ -66,11 +81,12 @@ async function doAcuityStuff(requesterEmail) {
           time : element['time'],
           endTime : element['endTime'],
           type: element['type'],
+          color: colorOfAppt,
           notes: element['notes'],
           difference : undefined
         }
 
-        console.log(`appointmentObject to push ${JSON.stringify(appointmentObjectToPush, null, " ")}`);
+        // console.log(`appointmentObject to push ${JSON.stringify(appointmentObjectToPush, null, " ")}`);
 
         // if appointmentObjectToPush date is before today
         // push object to pastAppointments array, if date
@@ -120,9 +136,10 @@ let getAcuityData = function(requesterEmail){
           //   email: 'office@drjhalpern.com',
           // }
 
-          appointmentOptions = {
+         let appointmentOptions = {
             email: requesterEmail,
           }
+
           console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}`)
           acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
             if (err) return console.error(err);
@@ -135,6 +152,30 @@ let getAcuityData = function(requesterEmail){
               
     
               resolve(appointments);
+            }
+          })
+    });
+}
+
+
+let getAcuityColors = function(){
+  return new Promise((resolve, reject) => {
+          
+
+         
+
+         
+          acuity.request(`/appointment-types`, function (err, res, appointmentTypes) {
+            if (err) return console.error(err);
+            if (appointmentTypes <= 0) {
+              console.log(`There are no appointment types`)
+              // reject(new Error('error getting acuity data deg'));
+              resolve(appointmentTypes);
+            } else {
+              // console.log(`appointment types: ${JSON.stringify(appointmentTypes,null," ")}`);
+              
+    
+              resolve(appointmentTypes);
             }
           })
     });

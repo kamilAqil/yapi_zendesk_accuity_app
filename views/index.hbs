@@ -43,7 +43,7 @@
                             
                         for (let i in response.data.pastAppointments) {
                             x += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
-                            x += "<div class='box' id='red'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
+                            x += `<div class='box' style="background:${response.data.pastAppointments[i].color}"></div><p class = 'rowTwo'style= ' margin:0'>` + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
                             x += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time + " to " + response.data.pastAppointments[i].endTime + "</p>";
                             x += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
                         
