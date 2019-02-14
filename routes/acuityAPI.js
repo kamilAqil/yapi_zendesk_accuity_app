@@ -74,7 +74,7 @@ async function doAcuityStuff(requesterEmail) {
         }
 
         let dateToTest = new Date(element['date']).toISOString();
-
+        let acuityApptLink = `https://secure.acuityscheduling.com/appointments/view/263006730?backto=l:0`
         let appointmentObjectToPush = {
           id: element['id'],
           name: element['firstName'],
@@ -86,7 +86,8 @@ async function doAcuityStuff(requesterEmail) {
           type: element['type'],
           color: colorOfAppt,
           notes: element['notes'],
-          difference : undefined
+          difference : undefined,
+          link : `https://secure.acuityscheduling.com/appointments/view/${element['id']}?backto=l:0`
         }
 
         // console.log(`appointmentObject to push ${JSON.stringify(appointmentObjectToPush, null, " ")}`);
