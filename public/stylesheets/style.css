@@ -28,6 +28,7 @@ body {
 .rowThree{
   color: #989494;
   text-transform:uppercase;
+
 }
 
 
@@ -50,6 +51,14 @@ p {
 }
 
 .p{
-  font-size:12px;
+  font-size:13px;
   padding-left:15px;
+}
+
+.notes{
+  white-space:nowrap;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 }
