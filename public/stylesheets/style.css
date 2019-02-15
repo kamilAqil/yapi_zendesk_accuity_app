@@ -62,3 +62,7 @@ p {
   text-overflow: ellipsis;
 
 }
+
+.mainbody {
+  height:1000px;
+}

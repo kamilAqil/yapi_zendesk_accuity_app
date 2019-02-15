@@ -1,6 +1,5 @@
 
 
-    <div>
     <p class="pastbar">Today's Appointments</p>
     <p id="apptToday"></p> 
     
@@ -10,9 +9,6 @@
     <p class="pastbar"> Past Appointments</p>
     <p id="apptPast"></p>
 
-    
-    </div>
-
 
     <script type="text/javascript" src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -20,7 +16,8 @@
         let res = null;
         let client = ZAFClient.init();
 
-        
+       
+
 
         //{ { !--get ticket requester name-- } }
         client.get('ticket.requester').then(function (data) {
@@ -33,19 +30,22 @@
                 .then(function (response) {
 
 
-                        console.log(response.data);
+                        //console.log(response.data);
 
                         x = "", y="", z="";
+                       
                         //PAST APPOINTMENTS
                         if (response.data.pastAppointments) {
                             
                         for (let i in response.data.pastAppointments) {
+                            let res
+                            let link = response.data.pastAppointments[i].link
                             x += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
                             x += `<div class='box' style="background:${response.data.pastAppointments[i].color}"></div><p class = 'rowTwo'style= ' margin:0'>` + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
                             x += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time + " to " + response.data.pastAppointments[i].endTime + "</p>";
                             x += "<p class = 'notes'>" + response.data.pastAppointments[i].notes + "</p>";
-                            x += "<a style= 'padding:0; margin:0 ' href='" + response.data.pastAppointments[i].link + "' class='btn btn-info' role='button'>More Info</a>"
-                            console.log(response.data.pastAppointments[i].link)
+                            x += `<a style= 'padding:0; margin:0 ' onClick="myFunction('${link}')" >More Info</a>`
+                            //console.log(response.data.pastAppointments[i].link)
                         }}
                         if (response.data.futureAppointments) {
                             
@@ -53,7 +53,7 @@
                             y += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
                             y += "<div class='box'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
                             Y += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time  + " to " + response.data.pastAppointments[i].endTime + "</p>";
-                            y += "<a style= 'padding:0; margin:0 ' href='" + response.data.pastAppointments[i].link + "' class='btn btn-info' role='button'>More Info</a>"
+                            y += "<a style= 'padding:0; margin:0 ' href='" + response.data.pastAppointments[i].link + "' target='_blank' class='btn btn-info' role='button'>More Info</a>"
                             }
                         }
                         //TODAY'S APPOINTMENTS
