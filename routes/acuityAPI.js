@@ -138,13 +138,13 @@ async function doAcuityStuff(requesterEmail) {
 
 let getAcuityData = function(requesterEmail){
   return new Promise((resolve, reject) => {
-          appointmentOptions = {
-            email: 'stevendanielsdds@gmail.com',
-          }
+          // appointmentOptions = {
+          //   email: 'stevendanielsdds@gmail.com',
+          // }
 
-        //  let appointmentOptions = {
-        //     email: requesterEmail,
-        //   }
+         let appointmentOptions = {
+            email: requesterEmail,
+          }
 
           console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}`)
           acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
