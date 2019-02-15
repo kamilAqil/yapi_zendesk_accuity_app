@@ -55,7 +55,7 @@
                             for (let i in response.data.futureAppointments) {
                             y += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + response.data.pastAppointments[i].date + "</p>";
                             y += "<div class='box'></div><p class = 'rowTwo'style= ' margin:0'>" + response.data.pastAppointments[i].time  + " " + response.data.pastAppointments[i].name + "</p>";
-                            Y += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time  + " to " + response.data.pastAppointments[i].endTime + "</p>";
+                            y += "<p class = 'rowThree' style= 'padding:0; margin:0 '>" + response.data.pastAppointments[i].type + " | " + response.data.pastAppointments[i].assignedTo + " | " + response.data.pastAppointments[i].time  + " to " + response.data.pastAppointments[i].endTime + "</p>";
                             y += "<a style= 'padding:0; margin:0 ' href='" + response.data.pastAppointments[i].link + "' target='_blank' class='btn btn-info' role='button'>More Info</a>"
                             }
                         }
