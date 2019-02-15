@@ -73,6 +73,8 @@ async function doAcuityStuff(requesterEmail) {
           colorOfAppt = "black"
         }
 
+
+
         let dateToTest = new Date(element['date']).toISOString();
         let acuityApptLink = `https://secure.acuityscheduling.com/appointments/view/263006730?backto=l:0`
         let appointmentObjectToPush = {
@@ -137,7 +139,7 @@ async function doAcuityStuff(requesterEmail) {
 let getAcuityData = function(requesterEmail){
   return new Promise((resolve, reject) => {
           // appointmentOptions = {
-          //   email: 'office@drjhalpern.com',
+          //   email: 'stevendanielsdds@gmail.com',
           // }
 
          let appointmentOptions = {
