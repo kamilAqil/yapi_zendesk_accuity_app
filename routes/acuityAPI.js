@@ -61,6 +61,8 @@ async function doAcuityStuff(requesterEmail) {
       objOfColors[`${el['name']}`] = el['color'];
       
     });
+  }).catch((err)=>{
+    console.log(`Error getting colors ${err}`)
   });
   
    await getAcuityData(requesterEmail).then((data)=>{
@@ -175,10 +177,10 @@ let getAcuityColors = function(){
             if (err) return console.error(err);
             if (appointmentTypes <= 0) {
               console.log(`There are no appointment types`)
-              // reject(new Error('error getting acuity data deg'));
+              
               resolve(appointmentTypes);
             } else {
-              // console.log(`appointment types: ${JSON.stringify(appointmentTypes,null," ")}`);
+              console.log(`appointment types: ${JSON.stringify(appointmentTypes,null," ")}`);
               
     
               resolve(appointmentTypes);
