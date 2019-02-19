@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
   
   
   doAcuityStuff(requesterEmail).then(function(data){
-    // console.log(`data in accuity stuff function ${JSON.stringify(data,null," ")}`)
+    console.log(`data in accuity stuff function ${JSON.stringify(data,null," ")}`)
     res.send(data)
   }).catch((err)=>{
 
@@ -76,7 +76,7 @@ async function doAcuityStuff(requesterEmail) {
 
 
         let dateToTest = new Date(element['date']).toISOString();
-        let acuityApptLink = `https://secure.acuityscheduling.com/appointments/view/263006730?backto=l:0`
+        
         let appointmentObjectToPush = {
           id: element['id'],
           name: element['firstName'],
