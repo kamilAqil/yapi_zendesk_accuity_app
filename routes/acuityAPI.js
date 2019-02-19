@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
     res.send(data)
   }).catch((err)=>{
 
-    // console.log(`doAcuityStuff async function err ${err}`)
+    console.log(`doAcuityStuff async function err ${err}`)
     res.send(err)
 
   });
