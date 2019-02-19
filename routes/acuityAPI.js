@@ -67,7 +67,7 @@ async function doAcuityStuff(requesterEmail) {
   
    await getAcuityData(requesterEmail).then((data)=>{
       console.log(`Got data from getAcuityData() ${JSON.stringify(data, null, " ")}`)
-      data.forEach(element => {
+      data.forEach((element )=> {
 
         // console.log(`object of colors : ${JSON.stringify(objOfColors)}`)
         let colorOfAppt = objOfColors[`${element['type']}`]
