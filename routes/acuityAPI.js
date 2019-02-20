@@ -3,6 +3,8 @@ let router = express.Router();
 let Acuity = require('acuityscheduling');
 let userId = process.env.ACUITY_USER_ID;
 let apiKey = process.env.ACUITY_API_TOKEN;
+let acuityFunctions = require('./routeFunctions/acuityFunctions');
+
 let acuity = Acuity.basic({
   userId: userId,
   apiKey: apiKey
@@ -10,33 +12,32 @@ let acuity = Acuity.basic({
 var moment = require('moment');
 moment().format();
 
+
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  
+  acuityFunctions.testFunction();
   // get ticket requester
   let requesterName = req.query.requesterName;
   const requesterEmail = req.query.requesterEmail;
 
-  console.log(`The Acuity Route was hit with ${req}\n
+  console.log(`\nThe Acuity Route was hit with ${req}\n
               The requester is ${requesterName}\n
-              the requeter email is ${requesterEmail}`);
-
-  // configure appointment options
-  // with requester name and e-mail
-  
-  
-  
+              the requeter email is ${requesterEmail}\n`);
+  // find acuity appointments using
+  // requester name and e-mail
   doAcuityStuff(requesterEmail).then(function(data){
-    console.log(`data in accuity stuff function ${JSON.stringify(data,null," ")}`)
+    console.log(`data in accuity stuff function`)
     res.send(data)
   }).catch((err)=>{
-
     console.log(`doAcuityStuff async function err ${err}`)
     res.send(err)
-
   });
-  
 });
+
+
+
 
 async function doAcuityStuff(requesterEmail) {
 
@@ -54,7 +55,7 @@ async function doAcuityStuff(requesterEmail) {
   // appointment date
 
 
-  await getAcuityColors().then((data)=>{
+  await acuityFunctions.getAcuityColors().then((data)=>{
     
     // console.log(`got acuity colors ${JSON.stringify(data,null," ")}`)
     data.forEach((el)=>{
@@ -65,8 +66,8 @@ async function doAcuityStuff(requesterEmail) {
     console.log(`Error getting colors ${err}`)
   });
   
-   await getAcuityData(requesterEmail).then((data)=>{
-      console.log(`Got data from getAcuityData() ${JSON.stringify(data, null, " ")}`)
+   await acuityFunctions.getAcuityData(requesterEmail).then((data)=>{
+      console.log(`Got data from getAcuityData() `)
       data.forEach((element )=> {
 
         // console.log(`object of colors : ${JSON.stringify(objOfColors)}`)
@@ -137,61 +138,5 @@ async function doAcuityStuff(requesterEmail) {
 
     return dataForFrontEnd
 }
-
-let getAcuityData = function(requesterEmail){
-  return new Promise((resolve, reject) => {
-          // appointmentOptions = {
-          //   email: 'stevendanielsdds@gmail.com',
-          // }
-
-         let appointmentOptions = {
-            email: requesterEmail,
-          }
-
-          console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}`)
-          acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
-            if (err) return console.error(err);
-            if (appointments.length <= 0) {
-              console.log(`There are no appointments`)
-              // reject(new Error('error getting acuity data deg'));
-              resolve(appointments);
-            } else {
-              console.log(`appointments array length: ${appointments.length}`);
-              
-    
-              resolve(appointments);
-            }
-          })
-    });
-}
-
-
-let getAcuityColors = function(){
-  return new Promise((resolve, reject) => {
-          
-
-         
-
-         
-          acuity.request(`/appointment-types`, function (err, res, appointmentTypes) {
-            if (err) return console.error(err);
-            if (appointmentTypes <= 0) {
-              console.log(`There are no appointment types`)
-              
-              resolve(appointmentTypes);
-            } else {
-              console.log(`appointment types: ${JSON.stringify(appointmentTypes,null," ")}`);
-              
-    
-              resolve(appointmentTypes);
-            }
-          })
-    });
-}
-
-
-
-
-
 
 module.exports = router;
