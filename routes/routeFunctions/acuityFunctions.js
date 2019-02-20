@@ -29,7 +29,7 @@ module.exports = {
         
           // first get and set the acuity colors and appointment
           // types 
-          await this.getAcuityColors().then((data)=>{
+          await getAcuityColors().then((data)=>{
             
             // console.log(`got acuity colors ${JSON.stringify(data,null," ")}`)
             data.forEach((el)=>{
@@ -40,7 +40,7 @@ module.exports = {
             console.log(`Error getting colors ${err}`)
           });
           
-           await this.getAcuityData(requesterEmail).then((data)=>{
+           await getAcuityData(requesterEmail).then((data)=>{
               console.log(`Got data from getAcuityData() `)
               data.forEach((element )=> {
         
