@@ -107,12 +107,15 @@ module.exports = {
                   dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
                   console.log(`pushing appointment`)
                 }
+
+               
                 return dataForFrontEnd
               });
             }).catch((err)=>{
               console.log(`Acuity Promise err ${err}`);
             });
-        
+            console.log(`Going to return dataForFrontEnd ${JSON.stringify(dataForFrontEnd,null," ")}`)
+            dataForFrontEnd.futureAppointments = dataForFrontEnd.futureAppointments.reverse();
             return dataForFrontEnd
         },
       
