@@ -21,6 +21,7 @@
 
         //{ { !--get ticket requester name-- } }
         client.get('ticket.requester').then(function (data) {
+            console.log(`client.get() data ${JSON.stringify(data)}`)
             data = data['ticket.requester'];
             let requesterName = data.name;
             let requesterEmail = data.email;
