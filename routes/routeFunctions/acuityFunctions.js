@@ -46,20 +46,22 @@ module.exports = {
           });
           
            await getAcuityData(requesterEmail).then((data)=>{
-              console.log(`Got data from getAcuityData() ${JSON.stringify(data,null," ")}`)
-              
+              // console.log(`Got data from getAcuityData() ${JSON.stringify(data,null," ")}`)
+
+              let today = moment();
+                today.utc();
+
+
               data.forEach((element )=> {
-        
-                // console.log(`object of colors : ${JSON.stringify(objOfColors)}`)
+
+                // get the acuity color associated with appointment 
                 let colorOfAppt = objOfColors[`${element['type']}`]
+                let dateToTest = new Date(element['datetime']);
+
                 if (colorOfAppt === undefined){
                   colorOfAppt = "black"
                 }
         
-        
-        
-                let dateToTest = new Date(element['date']).toISOString();
-                
                 // trim acuity data here and return trimmed data
                 // for each object extract the appointment ID, name, 
                 // appointment date
@@ -68,6 +70,7 @@ module.exports = {
                   id: element['id'],
                   name: element['firstName'],
                   date: element['date'],
+                  dateTime : element['datetime'],
                   dateToTest: dateToTest,
                   assignedTo: element['calendar'],
                   time : element['time'],
@@ -83,19 +86,12 @@ module.exports = {
                 // appointments by testing difference between appt
                 // date and today
         
-                let today = moment();
-                today.utc();
-        
                 let timeToCompare = moment(appointmentObjectToPush['dateToTest']);
+
                 timeToCompare.format();
         
                 let difference = timeToCompare.diff(today,'hours');
                 appointmentObjectToPush['difference'] = difference
-        
-                // if appointmentObjectToPush date is before today
-                // push object to pastAppointments array, if date
-                // is after appointmentObjectToPush date push object
-                // to future appointments
         
                 // test appointmentObject difference and if 
                 // difference is positive it is an upcoming appt
@@ -105,19 +101,28 @@ module.exports = {
                 
                 if(appointmentObjectToPush['difference']<0){
                   dataForFrontEnd.pastAppointments.push(appointmentObjectToPush)
-                  console.log(`pushing appointment to past appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}`)
+                  console.log(`pushing appointment to past appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
                 }else if (appointmentObjectToPush['difference']==0){
-                  dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
-                  console.log(`pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}`)
+                  if(moment(appointmentObjectToPush['dateTime']).isSame(today,'day')==true){
+                    dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
+                    console.log(`SAME DAY !pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
+                  }
+                  // dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
+                  // console.log(`pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
                 }else if (appointmentObjectToPush['difference']>0){
-                  dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
-                  console.log(`pushing appointment to future appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}`)
-                }
 
-               
+                    if(moment(appointmentObjectToPush['dateTime']).isSame(today,'day')==false){
+                      dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
+                      console.log(`pushing appointment to future appointments not the same day difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
+                      console.log(`future appointment not on the same day ${appointmentObjectToPush['date']}\n`)
+                    }
+                    // dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
+                    // console.log(`pushing appointment to future appointments not the same day difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}`)
+                }
                 return dataForFrontEnd
               });
             }).catch((err)=>{
+
               console.log(`Acuity Promise err ${err}`);
             });
             console.log(`Going to return dataForFrontEnd ${dataForFrontEnd}`)
@@ -181,7 +186,7 @@ let getAcuityData = function(requesterEmail){
               email: requesterEmail,
             }
   
-            console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}`)
+            console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}\n`)
             acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
               if (err) return console.error(err);
               if (appointments.length <= 0) {
@@ -189,7 +194,7 @@ let getAcuityData = function(requesterEmail){
                 // reject(new Error('error getting acuity data deg'));
                 resolve(appointments);
               } else {
-                console.log(`appointments array length: ${appointments.length}`);
+                console.log(`appointments array length: ${appointments.length}\n`);
                 
       
                 resolve(appointments);
