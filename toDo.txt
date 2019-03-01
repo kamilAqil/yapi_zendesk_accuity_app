@@ -1,0 +1,7 @@
+- on front end get organization data and pass to acuity route
+
+- from acuity route we will need to initialize a zendesk client 
+the zendesk-node-api gives you a method to search by ID hopefully 
+this will have enough data about users in the organizations when 
+searching the organization ID. 
+

@@ -10,6 +10,11 @@ let acuity = Acuity.basic({
   var moment = require('moment');
   moment().format();
 
+/* Initialize a server ZAF client  
+   and search organization by ID  
+*/
+
+
 module.exports = {
     testFunction: function(){
         console.log(`boop test function was exported`)
@@ -41,7 +46,8 @@ module.exports = {
           });
           
            await getAcuityData(requesterEmail).then((data)=>{
-              console.log(`Got data from getAcuityData() `)
+              console.log(`Got data from getAcuityData() ${JSON.stringify(data,null," ")}`)
+              
               data.forEach((element )=> {
         
                 // console.log(`object of colors : ${JSON.stringify(objOfColors)}`)
@@ -83,7 +89,7 @@ module.exports = {
                 let timeToCompare = moment(appointmentObjectToPush['dateToTest']);
                 timeToCompare.format();
         
-                let difference = timeToCompare.diff(today,'days');
+                let difference = timeToCompare.diff(today,'hours');
                 appointmentObjectToPush['difference'] = difference
         
                 // if appointmentObjectToPush date is before today
@@ -99,13 +105,13 @@ module.exports = {
                 
                 if(appointmentObjectToPush['difference']<0){
                   dataForFrontEnd.pastAppointments.push(appointmentObjectToPush)
-                  console.log(`pushing appointment`)
-                }else if (appointmentObjectToPush['difference']<0){
+                  console.log(`pushing appointment to past appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}`)
+                }else if (appointmentObjectToPush['difference']==0){
                   dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
-                  console.log(`pushing appointment`)
+                  console.log(`pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}`)
                 }else if (appointmentObjectToPush['difference']>0){
                   dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
-                  console.log(`pushing appointment`)
+                  console.log(`pushing appointment to future appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}`)
                 }
 
                
@@ -114,7 +120,7 @@ module.exports = {
             }).catch((err)=>{
               console.log(`Acuity Promise err ${err}`);
             });
-            console.log(`Going to return dataForFrontEnd ${JSON.stringify(dataForFrontEnd,null," ")}`)
+            console.log(`Going to return dataForFrontEnd ${dataForFrontEnd}`)
             dataForFrontEnd.futureAppointments = dataForFrontEnd.futureAppointments.reverse();
             return dataForFrontEnd
         },

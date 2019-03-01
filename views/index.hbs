@@ -1,5 +1,6 @@
 
     
+    
     <h1 class="pastbar">Today's Appointments</h1>
     <p id="apptToday"></p> 
 
@@ -15,16 +16,12 @@
     <script>
         let res = null;
         let client = ZAFClient.init();
-
        
-
-
         //{ { !--get ticket requester name-- } }
         client.get('ticket.requester').then(function (data) {
             data = data['ticket.requester'];
             let requesterName = data.name;
             let requesterEmail = data.email;
-
             //{ { !--send ticket requester name to server api-- } }
             axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
                 .then(function (response) {
@@ -32,9 +29,7 @@
                             width: '100%',
                             height: '500px'
                             });
-
                         console.log(response.data);
-
                         x = "", y="", z=""; 
                         
                         //PAST APPOINTMENTS
@@ -43,17 +38,14 @@
                                 const resPastAppt = response.data.pastAppointments[i]
                                 var linkPast = response.data.pastAppointments[i].link
                                 const boxColor = response.data.pastAppointments[i].color
-
                                 if (resPastAppt.notes === ""){
                                     resPastAppt.notes = "no notes available"
                                 }
-
                                 x += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + resPastAppt.date + "</p>";
                                 x += `<div class='box' style="background:${boxColor}"></div><p class = 'rowTwo'style= ' margin:0'>` + resPastAppt.time  + " " + resPastAppt.name + "</p>";
                                 x += "<p class = 'rowThree' style= 'padding:0; margin:1pt '>" + resPastAppt.type + " | " + resPastAppt.assignedTo + " | " + resPastAppt.time + " to " + resPastAppt.endTime + "</p>";
                                 x += "<p class = 'notes' style= 'padding:0; margin:5pt '>" + resPastAppt.notes + "</p>";
                                 x += `<button class = "button" onClick="pastLink('${linkPast}')" >More Info</button>`
-
                                 //console.log(response.data.pastAppointments[i].link)
                             }   
                         }
@@ -63,11 +55,9 @@
                                 const resFutureAppt = response.data.futureAppointments[i]
                                 var linkFuture = response.data.futureAppointments[i].link
                                 const boxColor = response.data.futureAppointments[i].color
-
                                 if (resFutureAppt.notes === ""){
                                     resFutureAppt.notes = "No notes available"
                                 }
-
                                 y += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + resFutureAppt.date + "</p>";
                                 y += `<div class='box' style="background:${boxColor}"></div><p class = 'rowTwo'style= ' margin:0'>` + resFutureAppt.time  + " " + resFutureAppt.name + "</p>";
                                 y += "<p class = 'rowThree' style= 'padding:0; margin:1pt '>" + resFutureAppt.type + " | " + resFutureAppt.assignedTo + " | " + resFutureAppt.time  + " to " + resFutureAppt.endTime + "</p>";
@@ -78,14 +68,12 @@
                         //TODAY'S APPOINTMENTS
                         if (response.data.todaysAppointments) {
                             for (let i in response.data.todaysAppointments) {
-                                const resTodayAppt = response.data.pastAppointments[i]
+                                const resTodayAppt = response.data.todaysAppointments[i]
                                 var linkToday = response.data.todaysAppointments[i].link
                                 const boxColor = response.data.todaysAppointments[i].color
-
                                 if (resTodayAppt.notes === ""){
                                     resTodayAppt.notes = "no notes available"
                                 }
-
                                 z += "<p class = 'rowOne' style= 'padding:0; margin:0'>" + resTodayAppt.date + "</p>";
                                 z += `<div class='box' style="background:${boxColor}"></div><p class = 'rowTwo'style= ' margin:0'>` + resTodayAppt.time  + " " + resTodayAppt.name + "</p>";
                                 z += "<p class = 'rowThree' style= 'padding:0; margin:1pt '>" + resTodayAppt.type + " | " + resTodayAppt.assignedTo + " | " + resTodayAppt.time + " to " + resTodayAppt.endTime + "</p>";
@@ -93,7 +81,6 @@
                                 z += `<button class = "button" onClick="presentLink('${linkToday}')" >More Info</button>`
                             }
                         }
-
                         //If no appointments, display this
                         x.length === 0 ? x = 'No Past Appointments' : null;
                         y.length === 0 ? y = 'No Future Appointments' : null;
@@ -103,15 +90,10 @@
                         document.getElementById("apptPast").innerHTML = x;
                         document.getElementById("apptFuture").innerHTML = y;
                         document.getElementById("apptToday").innerHTML = z;
-
-
-
         });
                 })
-
                 .catch(function (error) {
                     console.log(error);
                 });
         
-
-    </script>
+</script>
