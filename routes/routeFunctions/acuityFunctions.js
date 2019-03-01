@@ -89,7 +89,7 @@ module.exports = {
                 let timeToCompare = moment(appointmentObjectToPush['dateToTest']);
                 timeToCompare.format();
         
-                let difference = timeToCompare.diff(today,'days');
+                let difference = timeToCompare.diff(today,'hours');
                 appointmentObjectToPush['difference'] = difference
         
                 // if appointmentObjectToPush date is before today
