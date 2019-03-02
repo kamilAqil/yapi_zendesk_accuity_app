@@ -19,9 +19,19 @@
        
         //{ { !--get ticket requester name-- } }
         client.get('ticket.requester').then(function (data) {
-            data = data['ticket.requester'];
-            let requesterName = data.name;
-            let requesterEmail = data.email;
+
+            {{!-- console.log(`data from zaf client = ${JSON.stringify(data,null," ")}`) --}}
+            {{!-- get requester name, email, organization name, and organization id --}}
+            let requesterName = data['ticket.requester']['name'];
+            let requesterEmail = data['ticket.requester']['email'];
+
+            if(data['ticket.requester']['organizations']){
+                console.log(`there is a requester`)
+                let requesterOrganizationID = data['ticket.requester']['organizations'][0]['id'];
+                let requesterOrganizationName = data['ticket.requester']['organizations'][0]['name']; 
+            }           
+            
+
             //{ { !--send ticket requester name to server api-- } }
             axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
                 .then(function (response) {

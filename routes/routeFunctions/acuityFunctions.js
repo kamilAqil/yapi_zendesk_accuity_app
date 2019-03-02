@@ -105,19 +105,17 @@ module.exports = {
                 }else if (appointmentObjectToPush['difference']==0){
                   if(moment(appointmentObjectToPush['dateTime']).isSame(today,'day')==true){
                     dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
-                    console.log(`SAME DAY !pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
+                    console.log(`SAME DAY ! pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
                   }
-                  // dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
-                  // console.log(`pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
+
                 }else if (appointmentObjectToPush['difference']>0){
 
                     if(moment(appointmentObjectToPush['dateTime']).isSame(today,'day')==false){
                       dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
                       console.log(`pushing appointment to future appointments not the same day difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
-                      console.log(`future appointment not on the same day ${appointmentObjectToPush['date']}\n`)
+                      
                     }
-                    // dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
-                    // console.log(`pushing appointment to future appointments not the same day difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}`)
+                    
                 }
                 return dataForFrontEnd
               });
@@ -125,17 +123,14 @@ module.exports = {
 
               console.log(`Acuity Promise err ${err}`);
             });
-            console.log(`Going to return dataForFrontEnd ${dataForFrontEnd}`)
+            // console.log(`Going to return dataForFrontEnd ${dataForFrontEnd}`)
             dataForFrontEnd.futureAppointments = dataForFrontEnd.futureAppointments.reverse();
             return dataForFrontEnd
         },
       
     getAcuityData : function(requesterEmail){
         return new Promise((resolve, reject) => {
-                // appointmentOptions = {
-                //   email: 'stevendanielsdds@gmail.com',
-                // }
-      
+                
                let appointmentOptions = {
                   email: requesterEmail,
                 }
