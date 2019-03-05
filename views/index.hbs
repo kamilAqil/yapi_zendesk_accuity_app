@@ -26,11 +26,12 @@
             let requesterEmail = data['ticket.requester']['email'];
 
             if(data['ticket.requester']['organizations']){
-                console.log(`there is a requester`)
+                console.log(`there is an organizations`)
                 let requesterOrganizationID = data['ticket.requester']['organizations'][0]['id'];
                 let requesterOrganizationName = data['ticket.requester']['organizations'][0]['name']; 
             }           
             
+            {{!-- re write the axios get method using the params object --}}
 
             //{ { !--send ticket requester name to server api-- } }
             axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
