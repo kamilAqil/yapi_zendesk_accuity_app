@@ -16,7 +16,8 @@
     <script>
         let res = null;
         let client = ZAFClient.init();
-       
+        let requesterOrganizationID = undefined
+        let requesterOrganizationName = undefined
         //{ { !--get ticket requester name-- } }
         client.get('ticket.requester').then(function (data) {
 
@@ -26,21 +27,29 @@
             let requesterEmail = data['ticket.requester']['email'];
 
             if(data['ticket.requester']['organizations']){
-                console.log(`there is an organizations`)
-                let requesterOrganizationID = data['ticket.requester']['organizations'][0]['id'];
-                let requesterOrganizationName = data['ticket.requester']['organizations'][0]['name']; 
+                console.log(`there are organizations`)
+                 requesterOrganizationID = data['ticket.requester']['organizations'][0]['id'];
+                 requesterOrganizationName = data['ticket.requester']['organizations'][0]['name']; 
             }           
             
             {{!-- re write the axios get method using the params object --}}
 
             //{ { !--send ticket requester name to server api-- } }
-            axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
+            
+            axios.get('/acuityAPI',{
+                params : {
+                    requesterName : requesterName,
+                    requesterEmail : requesterEmail,
+                    requesterOrganizationID : requesterOrganizationID,
+                    requesterEmail : requesterEmail
+                }
+            })
                 .then(function (response) {
                          client.invoke('resize', {
                             width: '100%',
                             height: '500px'
                             });
-                        console.log(response.data);
+                        //console.log(response.data);
                         x = "", y="", z=""; 
                         
                         //PAST APPOINTMENTS

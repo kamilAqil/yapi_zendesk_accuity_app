@@ -101,22 +101,23 @@ module.exports = {
                 
                 if(appointmentObjectToPush['difference']<0){
                   dataForFrontEnd.pastAppointments.push(appointmentObjectToPush)
-                  console.log(`pushing appointment to past appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
+                  // console.log(`pushing appointment to past appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
                 }else if (appointmentObjectToPush['difference']==0){
                   if(moment(appointmentObjectToPush['dateTime']).isSame(today,'day')==true){
                     dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
-                    console.log(`SAME DAY ! pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
+                    // console.log(`SAME DAY ! pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
                   }
 
                 }else if (appointmentObjectToPush['difference']>0){
 
                     if(moment(appointmentObjectToPush['dateTime']).isSame(today,'day')==false){
                       dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
-                      console.log(`pushing appointment to future appointments not the same day difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
+                      // console.log(`pushing appointment to future appointments not the same day difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
                       
                     }
                     
                 }
+                
                 return dataForFrontEnd
               });
             }).catch((err)=>{
@@ -125,6 +126,7 @@ module.exports = {
             });
             // console.log(`Going to return dataForFrontEnd ${dataForFrontEnd}`)
             dataForFrontEnd.futureAppointments = dataForFrontEnd.futureAppointments.reverse();
+            console.log(`successfully pushed appt`)
             return dataForFrontEnd
         },
       

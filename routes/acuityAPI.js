@@ -19,13 +19,13 @@ moment().format();
 router.get('/', function(req, res, next) {
   acuityFunctions.testFunction();
   // get ticket requester
-  // console.log(`req query ${JSON.stringify(req['query'])}`)
+  let requestQuery = req.query
   let requesterName = req.query.requesterName;
   const requesterEmail = req.query.requesterEmail;
 
-  console.log(`\nThe Acuity Route was hit with ${req} \n
-              The requester is ${requesterName}\n
-              the requeter email is ${requesterEmail}\n`);
+
+  console.log(`\nThe Acuity Route was hit with ${JSON.stringify(requestQuery)}`);
+
   // find acuity appointments using
   // requester name and e-mail
   acuityFunctions.doAcuityStuff(requesterEmail).then(function(data){
