@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var zatRoute = require('./routes/zatRoute')
 var acuityAPI = require('./routes/acuityAPI')
+var acuityAPI2 = require('./routes/acuityAPI2')
 var app = express();
 var cors = require('cors');
 
