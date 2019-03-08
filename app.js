@@ -28,6 +28,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/zat', zatRoute);
 app.use('/acuityAPI',acuityAPI);
+app.use('/acuityAPI2',acuityAPI2);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
