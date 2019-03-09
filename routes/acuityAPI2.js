@@ -11,11 +11,11 @@ let acuity = Acuity.basic({
   apiKey: apiKey
 });
 
-var zendesk = new Zendesk({
-    url: process.env.YOUR_ZENDESK_URL, // https://example.zendesk.com
-    email: process.env.YOUR_ZENDESK_EMAIL, // me@example.com
-    token: process.env.YOUR_ZENDESK_API_TOKEN // hfkUny3vgHCcV3UfuqMFZWDrLKms4z3W2f6ftjPT
-  });
+// var zendesk = new Zendesk({
+//     url: process.env.YOUR_ZENDESK_URL, // https://example.zendesk.com
+//     email: process.env.YOUR_ZENDESK_EMAIL, // me@example.com
+//     token: process.env.YOUR_ZENDESK_API_TOKEN // hfkUny3vgHCcV3UfuqMFZWDrLKms4z3W2f6ftjPT
+//   });
 
 var moment = require('moment');
 moment().format();
@@ -33,16 +33,15 @@ router.get('/', function(req, res, next) {
   let requesterName = req.query.requesterName;
   const requesterEmail = req.query.requesterEmail;
     query = req.query
-
+    
   console.log(`\nThe Acuity Route 2 !! was hit with ${JSON.stringify(query)}\n
               The requester is ${requesterName}\n
               the requeter email is ${requesterEmail}\n`);
 
     // use zendesk tool to get users of an
     // organization 
-    console.log(`the zendesk tool is here ${JSON.stringify(zendesk.organizations.show().then())}`)
-
-
+    
+    
   // find acuity appointments using
   // requester name and e-mail
 

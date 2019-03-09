@@ -10,9 +10,6 @@ let acuity = Acuity.basic({
   var moment = require('moment');
   moment().format();
 
-/* Initialize a server ZAF client  
-   and search organization by ID  
-*/
 
 
 module.exports = {
