@@ -7,21 +7,10 @@ var zendesk = new Zendesk({
     token: process.env.YOUR_ZENDESK_API_TOKEN // hfkUny3vgHCcV3UfuqMFZWDrLKms4z3W2f6ftjPT
   });
 
-  
-  
-  async function aGetOrganization (organizationID){
-
-    // takes an organization id and uses the zendesk 
-    // tool to search for users in an organization
-    // and send this data back so that acuity can 
-    // populate appointments for said users
-
-    console.log(`aGetOrganization Function Triggered`);
-  }
-
-
   module.exports = {
-      zendeskFunctions: {
-            aGetOrganization :  aGetOrganization
-      }
+      
+          testFunction : function(){
+              console.log(`beep boop the zendesk testFunction fired`)
+          }
+      
   }

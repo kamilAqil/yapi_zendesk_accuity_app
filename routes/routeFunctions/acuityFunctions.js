@@ -14,7 +14,7 @@ let acuity = Acuity.basic({
 
 module.exports = {
     testFunction: function(){
-        console.log(`boop test function was exported`)
+        console.log(`boop acuity test function fired`)
     },
     doAcuityStuff : async function doAcuityStuff(requesterEmail) {
       
