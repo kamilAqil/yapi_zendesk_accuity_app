@@ -28,18 +28,21 @@ router.get('/', function (req, res, next) {
     // get ticket requester
 
     let requesterName = req.query.requesterName;
-    const requesterEmail = req.query.requesterEmail;
+    let requesterEmail = req.query.requesterEmail;
+    let requesterOrganizationID = req.query.requesterOrganizationID;
+
     query = req.query
 
     console.log(`\nThe Acuity Route 2 !! was hit with ${JSON.stringify(query)}\n`);
 
     acuityFunctions.testFunction();
     zendeskFunctions.testFunction()
+    
 
     // use zendesk tool to get users of an
     // organization using the organization id 
     // from acuity get organization id function
-
+    zendeskFunctions.getOrganizationData()
 
     // find acuity appointments using
     // requester name and e-mail

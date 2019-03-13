@@ -11,6 +11,9 @@ var zendesk = new Zendesk({
       
           testFunction : function(){
               console.log(`beep boop the zendesk testFunction fired`)
+          },
+          getOrganizationData : function(){
+              console.log(`going to get organization data`)
           }
       
   }
