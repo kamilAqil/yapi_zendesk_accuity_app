@@ -12,8 +12,12 @@ var zendesk = new Zendesk({
           testFunction : function(){
               console.log(`beep boop the zendesk testFunction fired`)
           },
-          getOrganizationData : function(){
-              console.log(`going to get organization data`)
-          }
-      
+          getOrganizationData : function(requesterOrganizationID){
+              console.log(`going to get organization data for ${requesterOrganizationID}`)
+            //   use zendesk tool to get list of users 
+            // console.log(`zendesk tool ${JSON.stringify(zendesk.organizations)}`)
+            
+
+            
+        }
   }

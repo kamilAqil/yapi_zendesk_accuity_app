@@ -42,7 +42,7 @@ router.get('/', function (req, res, next) {
     // use zendesk tool to get users of an
     // organization using the organization id 
     // from acuity get organization id function
-    zendeskFunctions.getOrganizationData()
+    zendeskFunctions.getOrganizationData(requesterOrganizationID)
 
     // find acuity appointments using
     // requester name and e-mail
