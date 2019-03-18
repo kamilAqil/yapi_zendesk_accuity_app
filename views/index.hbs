@@ -1,6 +1,4 @@
-
-      
-    
+ 
     <h1 class="pastbar">Today's Appointments</h1>
     <p id="apptToday"></p> 
 
@@ -19,7 +17,11 @@
         let requesterOrganizationID = undefined
         let requesterOrganizationName = undefined
         //{ { !--get ticket requester name-- } }
-        client.get('ticket.requester').then(function (data) {
+
+        getOrganizationUsers(client)
+
+    async function getOrganizationUsers(client){
+        await client.get('ticket.requester').then(function (data) {
             {{!-- console.log(`data from zaf client = ${JSON.stringify(data,null," ")}`) --}}
             {{!-- get requester name, email, organization name, and organization id --}}
             let requesterName = data['ticket.requester']['name'];
@@ -112,5 +114,6 @@
                 .catch(function (error) {
                     console.log(error);
                 });
+    }        
         
 </script>
