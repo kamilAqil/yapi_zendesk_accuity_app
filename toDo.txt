@@ -12,4 +12,6 @@ curl https://yapi1504512150.zendesk.com/api/v2/organizations.json \
   -u kamil.aqil@yapicentral.com/token:SEDAk49Im98efpxtt950zWlyvYMgPc3zff7NtG3D
 
 
-this works fine 
+this works fine - > link to helpful article 
+
+https://develop.zendesk.com/hc/en-us/community/posts/360004411867-Ajax-requests-blocked-by-CORS
