@@ -12,16 +12,17 @@ let zendesk = new Zendesk({
 let zendeskURL = `https://yapi1504512150.zendesk.com/api/v2/organizations.json`
 let zendeskUsername = process.env.ZENDESK_USERNAME
 let zendeskToken = process.env.ZENDESK_TOKEN
+var request = require('request')
 //   going to use axios to make a regular api call to get organization data
 
 
 let getOrganizationPromise =  function(organizationID){
-    return new Promise(()=>{
+    return new Promise((resolve,reject)=>{
 
-        var request = require('request');
+        
 
         let options = {
-            url: `https://yapi1504512150.zendesk.com/api/v2/organizations.json`,
+            url: `https://yapi1504512150.zendesk.com/api/v2/organizations/${organizationID}/users.json`,
             auth: {
                 'user': 'kamil.aqil@yapicentral.com/token',
                 'pass': 'SEDAk49Im98efpxtt950zWlyvYMgPc3zff7NtG3D'
@@ -30,7 +31,12 @@ let getOrganizationPromise =  function(organizationID){
 
         function callback(error, response, body) {
             if (!error && response.statusCode == 200) {
-                console.log(`body came back`);
+                let x = {}
+                
+                resolve(JSON.parse(body))
+            }
+            if(error){
+                reject(error)
             }
         }
 
@@ -46,7 +52,13 @@ module.exports = {
     getOrganizationData: async function getOrganizationData(requesterOrganizationID) { 
         console.log(`going to get organization data for ${requesterOrganizationID}`)
         //   use zendesk tool to get list of users 
-
+       await getOrganizationPromise(requesterOrganizationID).then((data)=>{
+            console.log(typeof data)
+            console.log(`data from getOrganizationPromise ${JSON.stringify(data,null," ")}`)
+            
+        }).catch((err)=>{
+            console.log(`error from getOrganization promise ${err}`)
+        })
         // console.log(`process.env ${JSON.stringify(process.env)}`)
 
 
