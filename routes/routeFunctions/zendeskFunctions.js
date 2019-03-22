@@ -51,16 +51,19 @@ module.exports = {
     },
     getOrganizationData: async function getOrganizationData(requesterOrganizationID) { 
         console.log(`going to get organization data for ${requesterOrganizationID}`)
-        //   use zendesk tool to get list of users 
-       await getOrganizationPromise(requesterOrganizationID).then((data)=>{
-            console.log(typeof data)
+        
+      let promisedOrganizationData = await getOrganizationPromise(requesterOrganizationID).then((data)=>{
+            
             console.log(`data from getOrganizationPromise ${JSON.stringify(data,null," ")}`)
             
+
+            return `woo`
         }).catch((err)=>{
             console.log(`error from getOrganization promise ${err}`)
         })
         // console.log(`process.env ${JSON.stringify(process.env)}`)
 
+        console.log(`promsedOrganizationData = ${promisedOrganizationData}`)
 
 
     }
