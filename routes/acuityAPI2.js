@@ -42,7 +42,19 @@ router.get('/', function (req, res, next) {
     // use zendesk tool to get users of an
     // organization using the organization id 
     // from acuity get organization id function
-    zendeskFunctions.getOrganizationData(requesterOrganizationID)
+    // zendeskFunctions.getOrganizationData(requesterOrganizationID).then((data)=>{
+    //     console.log(`here is the data from getOrganizationData on the acuity route ${data}`)
+    // }).catch((err)=>{
+    //     console.log(`something went wrong after geting organization data ${err}`)
+    // })
+
+    zendeskFunctions.getOrganizationData(requesterOrganizationID).then((data)=>{
+        console.log(data)
+    }).catch((err)=>{
+        console.log(err)
+    });
+
+   
 
     // find acuity appointments using
     // requester name and e-mail

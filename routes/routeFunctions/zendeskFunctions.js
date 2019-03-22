@@ -53,15 +53,10 @@ module.exports = {
         console.log(`going to get organization data for ${requesterOrganizationID}`)
         
       let promisedOrganizationData = await getOrganizationPromise(requesterOrganizationID).then((data)=>{
-            
-            console.log(`data from getOrganizationPromise ${JSON.stringify(data,null," ")}`)
-
             // data is an array of user objects with id 
             // name, email, 
 
             let arrayOfOrganizationUsers = []
-
-            console.log(`data is of type ${typeof data['users']}`)
 
             data["users"].forEach((el)=>{
                 let user = {}
@@ -72,17 +67,17 @@ module.exports = {
                 arrayOfOrganizationUsers.push(user);
             });
 
-            console.log(`arrayOfOrganizationUsers ${JSON.stringify(arrayOfOrganizationUsers,null," ")}`)
 
-            return `woo`
+            return arrayOfOrganizationUsers
+
         }).catch((err)=>{
             console.log(`error from getOrganization promise ${err}`)
         })
-        // console.log(`process.env ${JSON.stringify(process.env)}`)
+        
 
         console.log(`promsedOrganizationData = ${promisedOrganizationData}`)
 
-
+        return promisedOrganizationData
     }
 }
 
