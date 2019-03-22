@@ -55,7 +55,24 @@ module.exports = {
       let promisedOrganizationData = await getOrganizationPromise(requesterOrganizationID).then((data)=>{
             
             console.log(`data from getOrganizationPromise ${JSON.stringify(data,null," ")}`)
-            
+
+            // data is an array of user objects with id 
+            // name, email, 
+
+            let arrayOfOrganizationUsers = []
+
+            console.log(`data is of type ${typeof data['users']}`)
+
+            data["users"].forEach((el)=>{
+                let user = {}
+                user.id = el.id
+                user.email = el.email
+                user.phone = el.phone
+                user.name = el.name
+                arrayOfOrganizationUsers.push(user);
+            });
+
+            console.log(`arrayOfOrganizationUsers ${JSON.stringify(arrayOfOrganizationUsers,null," ")}`)
 
             return `woo`
         }).catch((err)=>{
