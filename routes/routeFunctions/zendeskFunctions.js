@@ -76,7 +76,8 @@ module.exports = {
         
 
         console.log(`promsedOrganizationData = ${promisedOrganizationData}`)
-
+        // Promised Organization data is an array of user emails, ids, phone numbers
+        // and names
         return promisedOrganizationData
     }
 }

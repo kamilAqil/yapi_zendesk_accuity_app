@@ -42,14 +42,18 @@ router.get('/', function (req, res, next) {
     // use zendesk tool to get users of an
     // organization using the organization id 
     // from acuity get organization id function
-    // zendeskFunctions.getOrganizationData(requesterOrganizationID).then((data)=>{
-    //     console.log(`here is the data from getOrganizationData on the acuity route ${data}`)
-    // }).catch((err)=>{
-    //     console.log(`something went wrong after geting organization data ${err}`)
-    // })
-
+    
     zendeskFunctions.getOrganizationData(requesterOrganizationID).then((data)=>{
+        // data is an array of user emails, ids, phone numbers
+        // and names
         console.log(data)
+        acuityFunctions.doAcuityStuff2(data).then(function (data) {
+            console.log(`data in accuity stuff function`)
+            res.send(data)
+        }).catch((err) => {
+            console.log(`doAcuityStuff async function err ${err}`)
+            res.send(err)
+        });
     }).catch((err)=>{
         console.log(err)
     });
@@ -59,13 +63,7 @@ router.get('/', function (req, res, next) {
     // find acuity appointments using
     // requester name and e-mail
 
-    // acuityFunctions.doAcuityStuff(requesterEmail).then(function (data) {
-    //     console.log(`data in accuity stuff function`)
-    //     res.send(data)
-    // }).catch((err) => {
-    //     console.log(`doAcuityStuff async function err ${err}`)
-    //     res.send(err)
-    // });
+   
 
 });
 
