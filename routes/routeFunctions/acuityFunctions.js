@@ -236,129 +236,62 @@ module.exports = {
             dataForFrontEnd.futureAppointments = dataForFrontEnd.futureAppointments.reverse();
             return dataForFrontEnd
         },  
-      
-    getAcuityData : function(requesterEmail){
-        return new Promise((resolve, reject) => {
-                // appointmentOptions = {
-                //   email: 'stevendanielsdds@gmail.com',
-                // }
-      
-               let appointmentOptions = {
-                  email: requesterEmail,
-                }
-      
-                console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}`)
-                acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
-                  if (err) return console.error(err);
-                  if (appointments.length <= 0) {
-                    console.log(`There are no appointments`)
-                    // reject(new Error('error getting acuity data deg'));
-                    resolve(appointments);
-                  } else {
-                    console.log(`appointments array length: ${appointments.length}`);
-                    
-          
-                    resolve(appointments);
-                  }
-                })
-          });
-      },
-
-    getAcuityColors : function(){
-        return new Promise((resolve, reject) => {
-                acuity.request(`/appointment-types`, function (err, res, appointmentTypes) {
-                  if (err) return console.error(err);
-                  if (appointmentTypes <= 0) {
-                    console.log(`There are no appointment types`)
-                    
-                    resolve(appointmentTypes);
-                  } else {
-                    // console.log(`appointment types: ${JSON.stringify(appointmentTypes,null," ")}`);
-                    
-          
-                    resolve(appointmentTypes);
-                  }
-                })
-          });
-    }
 };
 
-let getAcuityData = function(requesterEmail){
-    return new Promise((resolve, reject) => {
-            // appointmentOptions = {
-            //   email: 'stevendanielsdds@gmail.com',
-            // }
-  
-           let appointmentOptions = {
-              email: requesterEmail,
-            }
-  
-            console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}\n`)
-            acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
-              if (err) return console.error(err);
-              if (appointments.length <= 0) {
-                console.log(`There are no appointments`)
-                // reject(new Error('error getting acuity data deg'));
-                resolve(appointments);
-              } else {
-                console.log(`appointments array length: ${appointments.length}\n`);
-                
-      
-                resolve(appointments);
-              }
-            })
-      });
-  }
+let getAcuityData = function (requesterEmail) {
+  return new Promise((resolve, reject) => {
+    // appointmentOptions = {
+    //   email: 'stevendanielsdds@gmail.com',
+    // }
 
-  let getAcuityData2 = function(arrayOfUsers){
-    return new Promise((resolve, reject) => {
+    let appointmentOptions = {
+      email: requesterEmail,
+    }
 
-      let appointmentsArray = []
-
-      /* 
-          For each user in the array of users 
-          search acuity for appointments and if 
-          the appointment email matches any of the 
-          emails in the array of users then push the 
-          appointment to the appointmentsArray
-        */
-       
-
-      arrayOfUsers.forEach((el)=>{
-
-        let appointmentOptions = {
-          email: el.email,
-        }
-
-        
-
-        acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
-          if (err) return console.error(err);
-          if (appointments.length <= 0) {
-            console.log(`There are no appointments`)
-            // reject(new Error('error getting acuity data deg'));
-            appointmentsArray.push(appointments)
-          } else {
-            console.log(`appointments array length: ${appointments.length}\n`);
-            console.log(`appointments for ${appointmentOptions.name} ${JSON.stringify(appointments,null," ")}`)
+    console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}\n`)
+    acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
+      if (err) return console.error(err);
+      if (appointments.length <= 0) {
+        console.log(`There are no appointments`)
+        // reject(new Error('error getting acuity data deg'));
+        resolve(appointments);
+      } else {
+        console.log(`appointments array length: ${appointments.length}\n`);
 
 
-            appointmentsArray.push(appointments)
-          }
-        })
+        resolve(appointments);
+      }
+    })
+  });
+}
 
-        console.log(`appointmentsArray ${appointmentsArray}`);
-        
-      })
-      
+let getAcuityData2 = function (arrayOfUsers) {
+  return new Promise((resolve, reject) => {
+    console.log(`getAcuityData 2 is firing with ${JSON.stringify(arrayOfUsers,null," ")}`)
+    arrayOfUsers.forEach((el)=>{
+      console.log(`going to get acuitydata for user ${el['email']} and ${el['name']}`)
+    })
+  })
 
+}  
 
-     
-
-      console.log(`going to getAcuityData for requesterEmail: ${appointmentOptions.email}\n`)
-      
-      });
-  }  
+function getAcuityDataForUser(acuityUser,arrayOfAppointments){
+  return new Promise((resolve,reject)=>{
+    acuity.request(`/appointments?email=${appointmentOptions.email}`, function (err, res, appointments) {
+      if (err) return console.error(err);
+      // reject(err)
+      if (appointments.length <= 0) {
+        console.log(`There are no appointments`)
+        // reject(new Error('error getting acuity data deg'));
+        arrayOfAppointments.push(appointments)
+        resolve(arrayOfAppointments);
+      } else {
+        console.log(`appointments array length: ${appointments.length}\n`);
+        resolve(arrayOfAppointments);
+      }
+    })
+  })
+}
 
 let getAcuityColors = function(){
     return new Promise((resolve, reject) => {

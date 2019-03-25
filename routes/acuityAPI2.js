@@ -46,12 +46,13 @@ router.get('/', function (req, res, next) {
     zendeskFunctions.getOrganizationData(requesterOrganizationID).then((data)=>{
         // data is an array of user emails, ids, phone numbers
         // and names
-        console.log(data)
+        console.log(`data from getOrganizationData ${data}`)
+
         acuityFunctions.doAcuityStuff2(data).then(function (data) {
             console.log(`data in accuity stuff function`)
             res.send(data)
         }).catch((err) => {
-            console.log(`doAcuityStuff async function err ${err}`)
+            console.log(`doAcuityStuff2 async function err ${err}`)
             res.send(err)
         });
     }).catch((err)=>{
