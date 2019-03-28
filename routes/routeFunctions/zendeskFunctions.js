@@ -2,7 +2,7 @@
 let Zendesk = require('zendesk-node-api');
 let axios = require('axios');
 var Base64 = require('js-base64').Base64;
-
+let acuityFunctions = require('./acuityFunctions');
 let zendesk = new Zendesk({
     url: process.env.YOUR_ZENDESK_URL, // https://example.zendesk.com
     email: process.env.YOUR_ZENDESK_EMAIL, // me@example.com
@@ -51,7 +51,7 @@ module.exports = {
     },
     getOrganizationData: async function getOrganizationData(requesterOrganizationID) { 
         console.log(`going to get organization data for ${requesterOrganizationID}`)
-        
+      let appoinmentsArray = []  
       let promisedOrganizationData = await getOrganizationPromise(requesterOrganizationID).then((data)=>{
             // data is an array of user objects with id 
             // name, email, 
@@ -78,7 +78,23 @@ module.exports = {
         console.log(`promsedOrganizationData = ${promisedOrganizationData}`)
         // Promised Organization data is an array of user emails, ids, phone numbers
         // and names
-        return promisedOrganizationData
+        
+        promisedOrganizationData = await acuityFunctions.doAcuityStuff(promisedOrganizationData).then(function (data) {
+                // data.forEach((appt)=>{
+                //     appoinmentsArray.push(appt)
+                // })
+                console.log(`this is the response from doAcuityStuff() ${JSON.stringify(data, null, " ")}`)
+                // the acuityStuff2 function should respond back with an array of appointments
+                // res.send(`acuityFunctions.doAcuityStuff2(data) fired but not capturing data for response yet`)
+                return data
+            }).catch((err) => {
+                console.log(`doAcuityStuff2 async function err ${err}`)
+                // res.send(err)
+            });
+            console.log(`appoinmentsArray ${appoinmentsArray}`);
+        
+         return promisedOrganizationData
+
     }
 }
 
