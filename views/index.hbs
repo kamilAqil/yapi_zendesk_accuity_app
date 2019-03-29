@@ -1,6 +1,4 @@
-
-    
-    
+ 
     <h1 class="pastbar">Today's Appointments</h1>
     <p id="apptToday"></p> 
 
@@ -15,21 +13,47 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         let res = null;
-        let client = ZAFClient.init();
-       
+        var client = ZAFClient.init();
+        let requesterOrganizationID = undefined
+        let requesterOrganizationName = undefined
         //{ { !--get ticket requester name-- } }
-        client.get('ticket.requester').then(function (data) {
-            data = data['ticket.requester'];
-            let requesterName = data.name;
-            let requesterEmail = data.email;
+
+
+        getOrganizationUsers(client)
+
+    async function getOrganizationUsers(client){
+        await client.get('ticket.requester').then(function (data) {
+
+            {{!-- console.log(`data from zaf client = ${JSON.stringify(data,null," ")}`) --}}
+            {{!-- get requester name, email, organization name, and organization id --}}
+            let requesterName = data['ticket.requester']['name'];
+            let requesterEmail = data['ticket.requester']['email'];
+
+            if(data['ticket.requester']['organizations']){
+                console.log(`there are organizations`)
+                 requesterOrganizationID = data['ticket.requester']['organizations'][0]['id'];
+                 requesterOrganizationName = data['ticket.requester']['organizations'][0]['name']; 
+            }           
+            
+            {{!-- re write the axios get method using the params object --}}
+
             //{ { !--send ticket requester name to server api-- } }
-            axios.get(`/acuityAPI?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
+            
+            axios.get('/acuityAPI2',{
+
+                params : {
+                    requesterName : requesterName,
+                    requesterEmail : requesterEmail,
+                    requesterOrganizationID : requesterOrganizationID,
+                    requesterEmail : requesterEmail
+                }
+            })
                 .then(function (response) {
                          client.invoke('resize', {
                             width: '100%',
                             height: '500px'
                             });
-                        console.log(response.data);
+                        // console.log(response.data);
                         x = "", y="", z=""; 
                         
                         //PAST APPOINTMENTS
@@ -95,5 +119,6 @@
                 .catch(function (error) {
                     console.log(error);
                 });
+    }        
         
 </script>
