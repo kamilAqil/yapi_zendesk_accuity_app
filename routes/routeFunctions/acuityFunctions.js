@@ -24,6 +24,8 @@ module.exports = {
       futureAppointments: []
     }
 
+    let unsortedAppointments = []
+
     let objOfColors = {
 
     }
@@ -100,27 +102,9 @@ module.exports = {
         // if it is a negative difference then it is a past 
         // appt and if there is no difference it is an appointment 
         // today
-
-        if (appointmentObjectToPush['difference'] < 0) {
-          dataForFrontEnd.pastAppointments.push(appointmentObjectToPush)
-          console.log(`pushing appointment to past appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
-        } else if (appointmentObjectToPush['difference'] == 0) {
-          if (moment(appointmentObjectToPush['dateTime']).isSame(today, 'day') == true) {
-            dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
-            console.log(`SAME DAY !pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
-          }
-          // dataForFrontEnd.todaysAppointments.push(appointmentObjectToPush)
-          // console.log(`pushing appointment to today appointments difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
-        } else if (appointmentObjectToPush['difference'] > 0) {
-
-          if (moment(appointmentObjectToPush['dateTime']).isSame(today, 'day') == false) {
-            dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
-            console.log(`pushing appointment to future appointments not the same day difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
-            console.log(`future appointment not on the same day ${appointmentObjectToPush['date']}\n`)
-          }
-         
-        }
-        return dataForFrontEnd
+        unsortedAppointments.push(appointmentObjectToPush)
+        
+        return unsortedAppointments
       });
     }).catch((err) => {
 
@@ -128,9 +112,32 @@ module.exports = {
     });
     }
     
+    console.log(`unsorted appointments ${unsortedAppointments}`)
+    unsortedAppointments.forEach((appointment)=>{
+      if (appointment['difference'] < 0) {
+        dataForFrontEnd.pastAppointments.push(appointment)
+        console.log(`pushing appointment to past appointments difference is ${appointment['difference']} and the date is ${appointment['date']}\n`)
+      } else if (appointment['difference'] == 0) {
+        if (moment(appointment['dateTime']).isSame(today, 'day') == true) {
+          dataForFrontEnd.todaysAppointments.push(appointment)
+          console.log(`SAME DAY !pushing appointment to today appointments difference is ${appointment['difference']} and the date is ${appointment['date']}\n`)
+        }
+        // dataForFrontEnd.todaysAppointments.push(appointment)
+        // console.log(`pushing appointment to today appointments difference is ${appointment['difference']} and the date is ${appointment['date']}\n`)
+      } else if (appointment['difference'] > 0) {
+
+        if (moment(appointment['dateTime']).isSame(today, 'day') == false) {
+          dataForFrontEnd.futureAppointments.push(appointment)
+          console.log(`pushing appointment to future appointments not the same day difference is ${appointment['difference']} and the date is ${appointment['date']}\n`)
+          console.log(`future appointment not on the same day ${appointment['date']}\n`)
+        }
+       
+      }
+    })
     console.log(`Going to return dataForFrontEnd ${dataForFrontEnd}`)
     dataForFrontEnd.futureAppointments = dataForFrontEnd.futureAppointments.reverse();
     // sort all the arrays
+
     return dataForFrontEnd
   }
 };
