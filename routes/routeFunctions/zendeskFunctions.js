@@ -83,7 +83,7 @@ module.exports = {
                 // data.forEach((appt)=>{
                 //     appoinmentsArray.push(appt)
                 // })
-                console.log(`this is the response from doAcuityStuff() ${JSON.stringify(data, null, " ")}`)
+                console.log(`this is the response from doAcuityStuff() ${data}`)
                 // the acuityStuff2 function should respond back with an array of appointments
                 // res.send(`acuityFunctions.doAcuityStuff2(data) fired but not capturing data for response yet`)
                 return data
