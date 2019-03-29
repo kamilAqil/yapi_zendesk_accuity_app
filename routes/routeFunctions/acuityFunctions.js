@@ -6,8 +6,7 @@ let acuity = Acuity.basic({
   userId: userId,
   apiKey: apiKey
 });
-// Load the full build.
-var _ = require('lodash');
+
 var moment = require('moment');
 moment().format();
 
@@ -24,9 +23,6 @@ module.exports = {
       todaysAppointments: [],
       futureAppointments: []
     }
-
-    let today = moment();
-      today.utc();
 
     let unsortedAppointments = []
 
@@ -55,7 +51,8 @@ module.exports = {
           
       // console.log(`Got data from getAcuityData() ${JSON.stringify(data,null," ")}`)
 
-      
+      let today = moment();
+      today.utc();
 
 
       data.forEach((element) => {
@@ -116,10 +113,8 @@ module.exports = {
     }
     
     console.log(`unsorted appointments ${unsortedAppointments}`)
-
     unsortedAppointments.forEach((appointment)=>{
       if (appointment['difference'] < 0) {
-        // find past appointment position to push
         dataForFrontEnd.pastAppointments.push(appointment)
         console.log(`pushing appointment to past appointments difference is ${appointment['difference']} and the date is ${appointment['date']}\n`)
       } else if (appointment['difference'] == 0) {
@@ -132,7 +127,6 @@ module.exports = {
       } else if (appointment['difference'] > 0) {
 
         if (moment(appointment['dateTime']).isSame(today, 'day') == false) {
-          // find future appointment position to push
           dataForFrontEnd.futureAppointments.push(appointment)
           console.log(`pushing appointment to future appointments not the same day difference is ${appointment['difference']} and the date is ${appointment['date']}\n`)
           console.log(`future appointment not on the same day ${appointment['date']}\n`)
@@ -140,12 +134,10 @@ module.exports = {
        
       }
     })
-
-    console.log(`Going to return dataForFrontEnd ${JSON.stringify(dataForFrontEnd,null," ")}`)
+    console.log(`Going to return dataForFrontEnd ${dataForFrontEnd}`)
     dataForFrontEnd.futureAppointments = dataForFrontEnd.futureAppointments.reverse();
     // sort all the arrays
-    dataForFrontEnd.pastAppointments = _.sortBy(dataForFrontEnd.pastAppointments,['dateToTest']).reverse()
-    dataForFrontEnd.futureAppointments = _.sortBy(dataForFrontEnd.futureAppointments,['dateToTest'])
+
     return dataForFrontEnd
   }
 };
