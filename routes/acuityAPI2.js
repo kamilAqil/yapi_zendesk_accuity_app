@@ -42,17 +42,21 @@ router.get('/', function (req, res, next) {
     // use zendesk tool to get users of an
     // organization using the organization id 
     // from acuity get organization id function
-    // getOrganizationData is an async function
+    
     zendeskFunctions.getOrganizationData(requesterOrganizationID).then((data)=>{
-
+        
         // data should an array of user emails, ids, phone numbers
         // and names
-        // console.log(`data from getOrganizationData ${JSON.stringify(data)}`)
-        // acuity functions are promises which we will wait for 
-        
+        console.log(`data from getOrganizationData ${data}`)
 
-        res.send(data)
-        
+        acuityFunctions.doAcuityStuff2(data).then(function(data) {
+            console.log(`this is the response from doAcuityStuff2() ${JSON.stringify(data,null," ")}`)
+            // the acuityStuff2 function should respond back with an array of appointments
+            res.send(`acuityFunctions.doAcuityStuff2(data) fired but not capturing data for response yet`)
+        }).catch((err) => {
+            console.log(`doAcuityStuff2 async function err ${err}`)
+            res.send(err)
+        });
     }).catch((err)=>{
         console.log(err)
     });

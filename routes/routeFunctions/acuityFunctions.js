@@ -16,8 +16,8 @@ module.exports = {
   testFunction: function () {
     console.log(`boop acuity test function fired`)
   },
-  doAcuityStuff: async function doAcuityStuff(requesters) {
-    // doAcuityStuff accepts an array of requesters 
+  doAcuityStuff: async function doAcuityStuff(requesterEmail) {
+
     let dataForFrontEnd = {
       pastAppointments: [],
       todaysAppointments: [],
@@ -42,11 +42,7 @@ module.exports = {
       console.log(`Error getting colors ${err}`)
     });
 
-    // for every requeseter in requesters
-    // getAcuityData
-    for(let requester of requesters){
-        await getAcuityData(requester.email).then((data) => {
-          
+    await getAcuityData(requesterEmail).then((data) => {
       // console.log(`Got data from getAcuityData() ${JSON.stringify(data,null," ")}`)
 
       let today = moment();
@@ -69,8 +65,7 @@ module.exports = {
 
         let appointmentObjectToPush = {
           id: element['id'],
-          email : element['email'],
-          name: requester.name,
+          name: element['firstName'],
           date: element['date'],
           dateTime: element['datetime'],
           dateToTest: dateToTest,
@@ -118,7 +113,8 @@ module.exports = {
             console.log(`pushing appointment to future appointments not the same day difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}\n`)
             console.log(`future appointment not on the same day ${appointmentObjectToPush['date']}\n`)
           }
-         
+          // dataForFrontEnd.futureAppointments.push(appointmentObjectToPush)
+          // console.log(`pushing appointment to future appointments not the same day difference is ${appointmentObjectToPush['difference']} and the date is ${appointmentObjectToPush['date']}`)
         }
         return dataForFrontEnd
       });
@@ -126,13 +122,28 @@ module.exports = {
 
       console.log(`Acuity Promise err ${err}`);
     });
-    }
-    
     console.log(`Going to return dataForFrontEnd ${dataForFrontEnd}`)
     dataForFrontEnd.futureAppointments = dataForFrontEnd.futureAppointments.reverse();
-    // sort all the arrays
     return dataForFrontEnd
-  }
+  },
+  doAcuityStuff2: async function doAcuityStuff2(arrayOfUsers) {
+
+    let dataForFrontEnd = {
+      pastAppointments: [],
+      todaysAppointments: [],
+      futureAppointments: []
+    }
+
+    let objOfColors = {
+
+    }
+
+
+
+    console.log(`Going to return dataForFrontEnd ${dataForFrontEnd}`)
+    dataForFrontEnd.futureAppointments = dataForFrontEnd.futureAppointments.reverse();
+    return dataForFrontEnd
+  },
 };
 
 let getAcuityData = function (requesterEmail) {
@@ -162,7 +173,15 @@ let getAcuityData = function (requesterEmail) {
   });
 }
 
-
+function getAcuityData2(arrayOfUsers, arrayOfAppointmentsForAllUsers){
+  // gets an array of users from an organization and calls acuity
+  // to get the list of appointments for each user
+  return new Promise((resolve,reject)=>{
+    console.log(`arrayOfAppointmentsForAllUsers inside getAcuityData2 promise ${arrayOfAppointmentsForAllUsers}`)
+    resolve(`getAcuityData2 has been called with ${arrayOfUsers} and this is the response, ${arrayOfAppointmentsForAllUsers}`)
+  })
+  
+}
 // good
 function getAcuityDataForUser(acuityUser, arrayOfAppointments) {
   return new Promise((resolve, reject) => {
