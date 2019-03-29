@@ -43,6 +43,7 @@ module.exports = {
       data.forEach((el) => {
         objOfColors[`${el['name']}`] = el['color'];
 
+
       });
     }).catch((err) => {
       console.log(`Error getting colors ${err}`)
@@ -52,6 +53,7 @@ module.exports = {
     // getAcuityData
     for(let requester of requesters){
         await getAcuityData(requester.email).then((data) => {
+
           
       // console.log(`Got data from getAcuityData() ${JSON.stringify(data,null," ")}`)
 
