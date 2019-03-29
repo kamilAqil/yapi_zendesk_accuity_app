@@ -38,7 +38,7 @@ router.get('/', function (req, res, next) {
     acuityFunctions.testFunction();
     zendeskFunctions.testFunction()
     
-
+    
     // use zendesk tool to get users of an
     // organization using the organization id 
     // from acuity get organization id function

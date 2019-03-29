@@ -49,6 +49,9 @@ module.exports = {
     testFunction: function () {
         console.log(`beep boop the zendesk testFunction fired`)
     },
+    getOrganizationID : async function getOrganizationID(requester){
+        
+    },
     getOrganizationData: async function getOrganizationData(requesterOrganizationID) { 
         console.log(`going to get organization data for ${requesterOrganizationID}`)
       let appoinmentsArray = []  
