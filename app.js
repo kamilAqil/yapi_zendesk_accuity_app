@@ -10,6 +10,7 @@ var usersRouter = require('./routes/users');
 var zatRoute = require('./routes/zatRoute')
 var acuityAPI = require('./routes/acuityAPI')
 var acuityAPI2 = require('./routes/acuityAPI2')
+var acuityAPI3 = require('./routes/acuityAPI3')
 var app = express();
 var cors = require('cors');
 
@@ -30,6 +31,7 @@ app.use('/users', usersRouter);
 app.use('/zat', zatRoute);
 app.use('/acuityAPI',acuityAPI);
 app.use('/acuityAPI2',acuityAPI2);
+app.use('/acuityAPI3',acuityAPI3);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

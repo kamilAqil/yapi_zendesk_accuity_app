@@ -24,7 +24,8 @@ moment().format();
 /* GET home page. */
 
 router.get('/', function (req, res, next) {
-   
+    query = req.query
+    console.log(`\nThe Acuity Route 3 !! was hit with ${JSON.stringify(query)}\n`);
 
 });
 
