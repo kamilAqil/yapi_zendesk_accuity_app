@@ -26,32 +26,35 @@ moment().format();
 router.get('/', function (req, res, next) {
     query = req.query
     console.log(`\nThe Acuity Route 3 !! was hit with ${JSON.stringify(query)}\n`);
-    acuityAPI3MainFunction(query).then((data) => {
+    requesterID = query.requesterID;
+    
+    acuityAPI3MainFunction(requesterID).then((data) => {
         console.log(data);
         res.send(data)
     });
 
 });
 
-async function acuityAPI3MainFunction(query) {
-    console.log(`running the async acuityAPI3MainFunction with ${query}`)
-
+async function acuityAPI3MainFunction(requesterID) {
     /*
-    Use user email to search for organization, and if there is an organization
+    Use user ID to search for organization, and if there is an organization
     get all the users in the organization. 
     
-    If there is no organization then just search one user in acuity for appointments 
-
-
-    Need to return an object of three arrays named 
+    If there is no organization then just return one user in acuity for appointments  
     */
-    await zendeskFunctions.getOrganizationData(query.requesterEmail).then((data) => {
 
-        // data should an array of user emails, ids, phone numbers
-        // and names
-        console.log(`data from getOrganizationData ${data}`)
+    console.log(`requester id  ${requesterID}`)
+    await zendeskFunctions.getOrganizationPromise(requesterID).then((data) => {
+        // console.log(`data ${JSON.stringify(data,null," ")}`)
+        // console.log(`data.organization_id ${data.user['organization_id']}`)
+        if(!data.user['organization_id']){
+            console.log(`there is no organizaion_id`)
+        }
+        else if(data.user['organization_id']){
+            console.log(`there is an organization ${data.user['organization_id']}`)
+        }
 
-
+        
     }).catch((err) => {
         console.log(err)
     });

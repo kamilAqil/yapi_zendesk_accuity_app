@@ -20,9 +20,12 @@
             data = data['ticket.requester'];
             let requesterName = data.name;
             let requesterEmail = data.email;
+            let requeseterID = data.id;
             console.log(`requesterName = ${requesterName}`)
+            
+            console.log(`data = ${JSON.stringify(data,null," ")}`)
             //{ { !--send ticket requester name to server api-- } }
-            axios.get(`/acuityAPI3?requesterName=${requesterName}&requesterEmail=${requesterEmail}`)
+            axios.get(`/acuityAPI3?requesterID=${requeseterID}`)
                 .then(function (response) {
                          client.invoke('resize', {
                             width: '100%',
