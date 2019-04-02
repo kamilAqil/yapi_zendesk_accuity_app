@@ -26,8 +26,39 @@ moment().format();
 router.get('/', function (req, res, next) {
     query = req.query
     console.log(`\nThe Acuity Route 3 !! was hit with ${JSON.stringify(query)}\n`);
+    acuityAPI3MainFunction(query).then((data) => {
+        console.log(data);
+        res.send(data)
+    });
 
 });
+
+async function acuityAPI3MainFunction(query) {
+    console.log(`running the async acuityAPI3MainFunction with ${query}`)
+
+    /*
+    Use user email to search for organization, and if there is an organization
+    get all the users in the organization. 
+    
+    If there is no organization then just search one user in acuity for appointments 
+
+
+    Need to return an object of three arrays named 
+    */
+    await zendeskFunctions.getOrganizationData(query.requesterEmail).then((data) => {
+
+        // data should an array of user emails, ids, phone numbers
+        // and names
+        console.log(`data from getOrganizationData ${data}`)
+
+
+    }).catch((err) => {
+        console.log(err)
+    });
+
+
+    return `acuityAPI3MainFunction has finished`
+}
 
 
 
