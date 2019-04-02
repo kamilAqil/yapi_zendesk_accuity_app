@@ -26,11 +26,14 @@
             {{!-- get requester name, email, organization name, and organization id --}}
             let requesterName = data['ticket.requester']['name'];
             let requesterEmail = data['ticket.requester']['email'];
+            let requesterOrganizationID = undefined;
+            let requesterOrganizationName = undefined;
+            /*
             if(data['ticket.requester']['organizations']){
                 console.log(`there are organizations`)
                  requesterOrganizationID = data['ticket.requester']['organizations'][0]['id'];
                  requesterOrganizationName = data['ticket.requester']['organizations'][0]['name']; 
-            }           
+            }  */         
             
             {{!-- re write the axios get method using the params object --}}
             //{ { !--send ticket requester name to server api-- } }
@@ -38,8 +41,6 @@
             axios.get('/acuityAPI2',{
                 params : {
                     requesterName : requesterName,
-                    requesterEmail : requesterEmail,
-                    requesterOrganizationID : requesterOrganizationID,
                     requesterEmail : requesterEmail
                 }
             })
