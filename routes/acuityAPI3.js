@@ -45,8 +45,8 @@ async function acuityAPI3MainFunction(requesterID) {
 
     console.log(`requester id  ${requesterID}`)
     await zendeskFunctions.getOrganizationPromise(requesterID).then((data) => {
-        // console.log(`data ${JSON.stringify(data,null," ")}`)
-        // console.log(`data.organization_id ${data.user['organization_id']}`)
+        console.log(`data ${JSON.stringify(data,null," ")}`)
+        console.log(`data.organization_id ${data.user['organization_id']}`)
         if(!data.user['organization_id']){
             console.log(`there is no organizaion_id`)
         }

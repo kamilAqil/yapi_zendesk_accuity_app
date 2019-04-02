@@ -19,7 +19,7 @@ module.exports = {
             console.log(`running getOrganizationPromise`)
             // let intForUrl = parseInt(requesterID)
             let options = {
-                url: `https://yapi1504512150.zendesk.com/api/v2/users/${requesterID}.json`,
+                url: `https://yapi1504512150.zendesk.com/api/v2/users/${requesterID}/organizations.json`,
                 auth: {
                     'user': 'kamil.aqil@yapicentral.com/token',
                     'pass': 'SEDAk49Im98efpxtt950zWlyvYMgPc3zff7NtG3D'
