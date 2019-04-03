@@ -57,7 +57,34 @@ module.exports = {
     },
     getUsersFromOrganizationPromise: function(organizationID){
         return new Promise((resolve,reject)=>{
-            console.log(`getUsersFromOrganizationPromise ran`)
+            console.log(`getUsersFromOrganizationPromise ran will get users for ${organizationID}`)
+            // get users 
+            let options = {
+                url: `https://yapi1504512150.zendesk.com/api/v2/organizations/${organizationID}/users.json`,
+                auth: {
+                    'user': 'kamil.aqil@yapicentral.com/token',
+                    'pass': 'SEDAk49Im98efpxtt950zWlyvYMgPc3zff7NtG3D'
+                }
+            };
+            
+            function callback(error, response, body) {
+                console.log(`running getUsersFromOrganizationPromise request callback`)
+                
+                if (!error && response.statusCode == 200) {
+                    let x = {}
+                    arrayOfUsers = JSON.parse(body)
+                    console.log(`body from getOrganizationPromise request callback ${JSON.stringify(arrayOfUsers,null," ")}`)
+                    resolve(JSON.parse(body))
+                }
+                if(error){
+                    console.log(`there was an error ${error}`)
+                    reject(error)
+                }
+               
+            }
+            
+          
+            request(options, callback);
         })
     }
 }

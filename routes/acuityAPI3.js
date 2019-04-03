@@ -82,10 +82,12 @@ async function acuityAPI3MainFunction(requesterID) {
 
     let arrayOfUsersForAcuity = []
 
-    arrayOfOrganizationIDS.forEach((organizationID)=>{
-        console.log(`${organizationID}`)
+    
+    
 
-        let arrayOfOrganizationUsers = await zendeskFunctions.getOrganizationUsers(organizationID)
+    for(const i in arrayOfOrganizationIDS){
+        
+        let arrayOfOrganizationUsers = await zendeskFunctions.getUsersFromOrganizationPromise(arrayOfOrganizationIDS[i])
         .then((arrayOfUsers)=>{
             /*
              after getting back an array of users successfully
@@ -93,10 +95,13 @@ async function acuityAPI3MainFunction(requesterID) {
             */ 
             return arrayOfUsers
         })
-        .catch()
+        .catch((err)=>{
+            console.log(`something went wrong in getUsersFromOrganizationPromise ${err}`)
+        })
+    }
 
-        
-    })
+
+
 
     return `acuityAPI3MainFunction has finished`
 }
