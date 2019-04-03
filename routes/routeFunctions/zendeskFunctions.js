@@ -45,10 +45,19 @@ module.exports = {
             request(options, callback);
         });
     },
-    getUsersFromOrganizationPromise : function(userArray){
+    getUsersFromOrganizationPromise : function(OrganizationID){
         return new Promise((resolve,reject)=>{
-            console.log(`here is the array of users inside getUsersFromOrganizationPromise${userArray}`)
-            resolve(userArray);
+            console.log(`here is the array of IDS inside getUsersFromEachOrganization ${arrayOfOrganizationIDS}`)
+
+            let arrayOfUsers = []
+
+           
+            resolve(arrayOfUsers);
+        })
+    },
+    getUsersFromOrganizationPromise: function(organizationID){
+        return new Promise((resolve,reject)=>{
+            console.log(`getUsersFromOrganizationPromise ran`)
         })
     }
 }

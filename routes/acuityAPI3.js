@@ -73,12 +73,30 @@ async function acuityAPI3MainFunction(requesterID) {
         console.log(err)
     });
 
-    
-
     console.log(`arrayOfOrganizationIDS: ${JSON.stringify(arrayOfOrganizationIDS)}`)
+
     /*
-        
+        Create an array of users by looping through array of org ids
+        and pushing to array of users
     */
+
+    let arrayOfUsersForAcuity = []
+
+    arrayOfOrganizationIDS.forEach((organizationID)=>{
+        console.log(`${organizationID}`)
+
+        let arrayOfOrganizationUsers = await zendeskFunctions.getOrganizationUsers(organizationID)
+        .then((arrayOfUsers)=>{
+            /*
+             after getting back an array of users successfully
+             loop through each user and push them to arrayOfUsersForAcuity
+            */ 
+            return arrayOfUsers
+        })
+        .catch()
+
+        
+    })
 
     return `acuityAPI3MainFunction has finished`
 }
