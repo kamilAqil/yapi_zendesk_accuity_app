@@ -44,6 +44,12 @@ module.exports = {
           
             request(options, callback);
         });
+    },
+    getUsersFromOrganizationPromise : function(userArray){
+        return new Promise((resolve,reject)=>{
+            console.log(`here is the array of users inside getUsersFromOrganizationPromise${userArray}`)
+            resolve(userArray);
+        })
     }
 }
 

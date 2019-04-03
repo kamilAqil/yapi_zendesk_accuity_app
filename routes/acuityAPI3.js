@@ -35,6 +35,12 @@ router.get('/', function (req, res, next) {
 
 });
 
+/*
+        FUNCTIONS ARE BELOW
+*/
+
+
+
 async function acuityAPI3MainFunction(requesterID) {
     /*
     Use user ID to search for organization, and if there is an organization
@@ -44,21 +50,35 @@ async function acuityAPI3MainFunction(requesterID) {
     */
 
     console.log(`requester id  ${requesterID}`)
-    await zendeskFunctions.getOrganizationPromise(requesterID).then((data) => {
-        console.log(`data ${JSON.stringify(data,null," ")}`)
-        console.log(`data.organization_id ${data.user['organization_id']}`)
-        if(!data.user['organization_id']){
-            console.log(`there is no organizaion_id`)
-        }
-        else if(data.user['organization_id']){
-            console.log(`there is an organization ${data.user['organization_id']}`)
-        }
 
+    let arrayOfOrganizationIDS = await zendeskFunctions.getOrganizationPromise(requesterID).then((data) => {
+        /*
+            Data should be an array of organization 
+        */
+       let arrayOfOrganizationIDS = []
+
+        console.log(`data from getOrganizationPromise ${data}`)
+        let arrayOfOrganizations = data.organizations
+
+        arrayOfOrganizations.forEach((el)=>{
+            console.log(`pushing organization to aware of ID`)
+            arrayOfOrganizationIDS.push(el.id)
+            
+        })
+        // console.log(`array of organizations ${JSON.stringify(arrayOfOrganizations,null," ")}`)
+
+        return arrayOfOrganizationIDS
         
     }).catch((err) => {
         console.log(err)
     });
 
+    
+
+    console.log(`arrayOfOrganizationIDS: ${JSON.stringify(arrayOfOrganizationIDS)}`)
+    /*
+        
+    */
 
     return `acuityAPI3MainFunction has finished`
 }

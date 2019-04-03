@@ -23,7 +23,7 @@
             let requeseterID = data.id;
             console.log(`requesterName = ${requesterName}`)
             
-            console.log(`data = ${JSON.stringify(data,null," ")}`)
+          //  console.log(`data = ${JSON.stringify(data,null," ")}`)
             //{ { !--send ticket requester name to server api-- } }
             axios.get(`/acuityAPI3?requesterID=${requeseterID}`)
                 .then(function (response) {
