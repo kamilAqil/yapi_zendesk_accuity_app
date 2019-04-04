@@ -72,9 +72,20 @@ module.exports = {
                 
                 if (!error && response.statusCode == 200) {
                     let x = {}
-                    arrayOfUsers = JSON.parse(body)
-                    console.log(`body from getOrganizationPromise request callback ${JSON.stringify(arrayOfUsers,null," ")}`)
-                    resolve(JSON.parse(body))
+                    jsonBody = JSON.parse(body)
+                    arrayOfUsers = jsonBody.users
+                    arrayOfUsersForAcuity = []
+
+                    arrayOfUsers.forEach((user)=>{
+                        let userToPush = {
+                            name : user.name,
+                            email : user.email
+                        }
+                        arrayOfUsersForAcuity.push(userToPush)
+                    })
+
+                    // console.log(`body from getUsersFromOrganizationPromise request callback ${JSON.stringify(arrayOfUsersForAcuity,null," ")}`)
+                    resolve(arrayOfUsersForAcuity)
                 }
                 if(error){
                     console.log(`there was an error ${error}`)

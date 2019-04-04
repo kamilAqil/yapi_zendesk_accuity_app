@@ -93,14 +93,21 @@ async function acuityAPI3MainFunction(requesterID) {
              after getting back an array of users successfully
              loop through each user and push them to arrayOfUsersForAcuity
             */ 
+            
+            
             return arrayOfUsers
         })
         .catch((err)=>{
             console.log(`something went wrong in getUsersFromOrganizationPromise ${err}`)
         })
+
+        
+        arrayOfOrganizationUsers.forEach((user)=>{
+            arrayOfUsersForAcuity.push(user)
+        })
     }
 
-
+    console.log(`arrayOfUsersForAcuity ${JSON.stringify(arrayOfUsersForAcuity,null," ")}`)
 
 
     return `acuityAPI3MainFunction has finished`
