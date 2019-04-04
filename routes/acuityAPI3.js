@@ -109,6 +109,54 @@ async function acuityAPI3MainFunction(requesterID) {
 
     console.log(`arrayOfUsersForAcuity ${JSON.stringify(arrayOfUsersForAcuity,null," ")}`)
 
+    /*
+        For every user in the arrayOfUsersForAcuity get
+        appointment data and push to array of appointments 
+    */
+    let unsortedFilteredAppointments = []
+
+    for(const i in arrayOfUsersForAcuity){
+
+        console.log(`user in array for acuity ${JSON.stringify(arrayOfUsersForAcuity[i],null," ")}`)
+        /* 
+           get appointment information for the 
+           user and push appointments to array 
+           of appointments
+        */
+        let arrayOfUnorganizedAppointments = []
+
+        let appoinmentArrayFromAcuityForUser = await acuityFunctions.getAppointmentsForUser(arrayOfUsersForAcuity[i])
+        .then((appointmentsArray)=>{
+            console.log(`Appointments response from getAppointmentsForUser${appointmentsArray}`)
+            return appointmentsArray
+        })
+        .catch((err)=>{
+            console.log(`something went wrong getting acuity appointment data on the acuityAPI 3 route ${err}`)
+        })
+
+        console.log(`appoinmentArrayFromAcuityForUser ${appoinmentArrayFromAcuityForUser}`)
+
+        for(const i in appoinmentArrayFromAcuityForUser){
+            console.log(`acuity appointment in appoinmentArrayFromAcuityForUser`)
+
+            let filteredAppointment = await acuityFunctions.filterAppointment((appoinmentArrayFromAcuityForUser[i]))
+            .then((appointment)=>{
+                return appointment
+            })
+            .catch((err)=>{
+                console.log(`something went wrong filtering appointments on accuity API3 Route ${err}`)
+            })
+
+
+            arrayOfUnorganizedAppointments.push(filteredAppointment)
+
+        }
+        
+        console.log(`arrayOfUnorganizedAppointments ${arrayOfUnorganizedAppointments}`)
+        
+
+    }
+
 
     return `acuityAPI3MainFunction has finished`
 }

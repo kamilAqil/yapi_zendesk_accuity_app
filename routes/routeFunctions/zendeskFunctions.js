@@ -45,16 +45,6 @@ module.exports = {
             request(options, callback);
         });
     },
-    getUsersFromOrganizationPromise : function(OrganizationID){
-        return new Promise((resolve,reject)=>{
-            console.log(`here is the array of IDS inside getUsersFromEachOrganization ${arrayOfOrganizationIDS}`)
-
-            let arrayOfUsers = []
-
-           
-            resolve(arrayOfUsers);
-        })
-    },
     getUsersFromOrganizationPromise: function(organizationID){
         return new Promise((resolve,reject)=>{
             console.log(`getUsersFromOrganizationPromise ran will get users for ${organizationID}`)
