@@ -51,9 +51,13 @@ module.exports = {
       })
     });
   },
-  filterAppointment : function(appointment){
+  filterAppointment : function(appointment,objOfColors){
     return new Promise((resolve,reject)=>{
       
+      
+  
+      let colorOfAppt = objOfColors[`${appointment['type']}`]
+
       let filteredAppointment = {
         id: appointment['id'],
         email: appointment['email'],
@@ -65,6 +69,7 @@ module.exports = {
         time: appointment['time'],
         endTime: appointment['endTime'],
         type: appointment['type'],
+        color: colorOfAppt,
         notes: appointment['notes'],
         difference: undefined,
         link: `https://secure.acuityscheduling.com/appointments/view/${appointment['id']}?backto=l:0`

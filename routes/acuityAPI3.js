@@ -139,7 +139,25 @@ async function acuityAPI3MainFunction(requesterID) {
         for(const i in appoinmentArrayFromAcuityForUser){
             console.log(`acuity appointment in appoinmentArrayFromAcuityForUser`)
 
-            let filteredAppointment = await acuityFunctions.filterAppointment((appoinmentArrayFromAcuityForUser[i]))
+            let objOfColors = {
+
+            }
+        
+        
+            // first get and set the acuity colors and appointment
+            // types 
+            await acuityFunctions.getAcuityColors().then((data) => {
+        
+              // console.log(`got acuity colors ${JSON.stringify(data,null," ")}`)
+              data.forEach((el) => {
+                objOfColors[`${el['name']}`] = el['color'];
+        
+              });
+            }).catch((err) => {
+              console.log(`Error getting colors ${err}`)
+            });
+
+            let filteredAppointment = await acuityFunctions.filterAppointment((appoinmentArrayFromAcuityForUser[i]),objOfColors)
             .then((appointment)=>{
                 return appointment
             })
