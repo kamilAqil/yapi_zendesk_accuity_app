@@ -117,27 +117,31 @@ async function acuityAPI3MainFunction(requesterID) {
 
     for(const i in arrayOfUsersForAcuity){
 
-        console.log(`user in array for acuity ${JSON.stringify(arrayOfUsersForAcuity[i],null," ")}`)
+        console.log(`going to get appointments for ${JSON.stringify(arrayOfUsersForAcuity[i],null," ")}`)
         /* 
            get appointment information for the 
            user and push appointments to array 
            of appointments
         */
-        let arrayOfUnorganizedAppointments = []
+        
 
         let appoinmentArrayFromAcuityForUser = await acuityFunctions.getAppointmentsForUser(arrayOfUsersForAcuity[i])
         .then((appointmentsArray)=>{
-            console.log(`Appointments response from getAppointmentsForUser${appointmentsArray}`)
+            console.log(`Appointments response from getAppointmentsForUser${appointmentsArray.length} appointments`)
             return appointmentsArray
         })
         .catch((err)=>{
             console.log(`something went wrong getting acuity appointment data on the acuityAPI 3 route ${err}`)
         })
 
-        console.log(`appoinmentArrayFromAcuityForUser ${appoinmentArrayFromAcuityForUser}`)
-
+        console.log(`appoinmentArrayFromAcuityForUser ${appoinmentArrayFromAcuityForUser.length} appointments`)
+        
+        /*
+            Looping through appointment array for each user
+            and pushing filtered appointment to unsortedFilteredAppointments
+        */ 
         for(const i in appoinmentArrayFromAcuityForUser){
-            console.log(`acuity appointment in appoinmentArrayFromAcuityForUser`)
+            
 
             let objOfColors = {
 
@@ -165,12 +169,13 @@ async function acuityAPI3MainFunction(requesterID) {
                 console.log(`something went wrong filtering appointments on accuity API3 Route ${err}`)
             })
 
-
-            arrayOfUnorganizedAppointments.push(filteredAppointment)
+            unsortedFilteredAppointments.push(filteredAppointment)
+            
+            
 
         }
         
-        console.log(`arrayOfUnorganizedAppointments ${arrayOfUnorganizedAppointments}`)
+        console.log(`total of unsortedFilteredAppointments ${unsortedFilteredAppointments.length}`)
         
 
     }

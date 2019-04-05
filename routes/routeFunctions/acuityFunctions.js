@@ -75,8 +75,8 @@ module.exports = {
         link: `https://secure.acuityscheduling.com/appointments/view/${appointment['id']}?backto=l:0`
       }
 
-      console.log(`running filter appointment for ${JSON.stringify(filteredAppointment,null," ")}`)
-
+      console.log(`filtered appointment ${filteredAppointment.id}`)
+      resolve(filteredAppointment)
     })
   }
 };
