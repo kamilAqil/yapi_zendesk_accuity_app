@@ -84,8 +84,24 @@ async function acuityAPI3MainFunction(requesterID) {
 
     
     if(arrayOfOrganizationIDS.length < 1){
+
         console.log(`\n there are no organizations will need to check appointments by user \n`)
+
+        let acuityUserForarrayOfUsersForAcuity = await zendeskFunctions.getUserByUserID(requesterID)
+        .then((user)=>{
+            console.log(`user returned from acuityUserForarrayOfUsersForAcuity ${JSON.stringify(user)}`)
+            return user
+        })
+        .catch((err)=>{
+            console.log(`something went wrong getting zendesk user by user id ${err}`)
+        })
+
+
+        arrayOfUsersForAcuity.push(acuityUserForarrayOfUsersForAcuity)
+        console.log(`pushed ${JSON.stringify(acuityUserForarrayOfUsersForAcuity)} to arrayOfUsersForAcuity`)
+
     }else if(arrayOfOrganizationIDS.length > 0){
+
         for(const i in arrayOfOrganizationIDS){
         
             let arrayOfOrganizationUsers = await zendeskFunctions.getUsersFromOrganizationPromise(arrayOfOrganizationIDS[i])

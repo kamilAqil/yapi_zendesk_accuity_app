@@ -72,10 +72,12 @@ module.exports = {
                             email : user.email
                         }
                         arrayOfUsersForAcuity.push(userToPush)
+                        // console.log(`going to resolve ${arrayOfUsersForAcuity}`)
+                        resolve(arrayOfUsersForAcuity)
                     })
 
                     // console.log(`body from getUsersFromOrganizationPromise request callback ${JSON.stringify(arrayOfUsersForAcuity,null," ")}`)
-                    resolve(arrayOfUsersForAcuity)
+                    
                 }
                 if(error){
                     console.log(`there was an error ${error}`)
@@ -86,6 +88,48 @@ module.exports = {
             
           
             request(options, callback);
+        })
+    },
+    getUserByUserID : function(userID){
+        return new Promise((resolve,reject)=>{
+            console.log(`running getUserByUserID Promise`)
+            console.log(`will search zendesk for user by user ID ${userID}`)
+            
+            
+            // let intForUrl = parseInt(requesterID)
+            let options = {
+                url: `https://yapi1504512150.zendesk.com/api/v2/users/${requesterID}.json`,
+                auth: {
+                    'user': 'kamil.aqil@yapicentral.com/token',
+                    'pass': 'SEDAk49Im98efpxtt950zWlyvYMgPc3zff7NtG3D'
+                }
+            };
+            
+            function callback(error, response, body) {
+                parsedBody = JSON.parse(body)
+                console.log(`running getUserByUserID request callback and here is the response ${parsedBody}`)
+                userToReturn = {
+                    name : parsedBody.user.name,
+                    email : parsedBody.user.email
+                }
+                console.log(`userToReturn ${JSON.stringify(userToReturn)}`)
+                if (!error && response.statusCode == 200) {
+                    let x = {}
+                    console.log(`user data from request to zendesk user api ${JSON.stringify(userToReturn)}`)
+                    resolve(userToReturn)
+                }
+                if(error){
+                    console.log(`there was an error ${error}`)
+                    reject(error)
+                }
+               
+            }
+            
+          
+            request(options, callback);
+
+
+
         })
     }
 }
