@@ -73,7 +73,7 @@ async function acuityAPI3MainFunction(requesterID) {
         console.log(err)
     });
 
-    console.log(`arrayOfOrganizationIDS: ${JSON.stringify(arrayOfOrganizationIDS)}`)
+    console.log(`arrayOfOrganizationIDS: ${arrayOfOrganizationIDS.length}`)
 
     /*
         Create an array of users by looping through array of org ids
@@ -83,33 +83,33 @@ async function acuityAPI3MainFunction(requesterID) {
     let arrayOfUsersForAcuity = []
 
     
-    if(arrayOfOrganizationIDS.length = 0){
-        console.log(`there are no organizations will check appointments by user`)
+    if(arrayOfOrganizationIDS.length < 1){
+        console.log(`\n there are no organizations will need to check appointments by user \n`)
     }else if(arrayOfOrganizationIDS.length > 0){
+        for(const i in arrayOfOrganizationIDS){
         
+            let arrayOfOrganizationUsers = await zendeskFunctions.getUsersFromOrganizationPromise(arrayOfOrganizationIDS[i])
+            .then((arrayOfUsers)=>{
+                /*
+                 after getting back an array of users successfully
+                 loop through each user and push them to arrayOfUsersForAcuity
+                */ 
+                
+                
+                return arrayOfUsers
+            })
+            .catch((err)=>{
+                console.log(`something went wrong in getUsersFromOrganizationPromise ${err}`)
+            })
+    
+            
+            arrayOfOrganizationUsers.forEach((user)=>{
+                arrayOfUsersForAcuity.push(user)
+            })
+        }
     }
 
-    for(const i in arrayOfOrganizationIDS){
-        
-        let arrayOfOrganizationUsers = await zendeskFunctions.getUsersFromOrganizationPromise(arrayOfOrganizationIDS[i])
-        .then((arrayOfUsers)=>{
-            /*
-             after getting back an array of users successfully
-             loop through each user and push them to arrayOfUsersForAcuity
-            */ 
-            
-            
-            return arrayOfUsers
-        })
-        .catch((err)=>{
-            console.log(`something went wrong in getUsersFromOrganizationPromise ${err}`)
-        })
-
-        
-        arrayOfOrganizationUsers.forEach((user)=>{
-            arrayOfUsersForAcuity.push(user)
-        })
-    }
+    
 
     console.log(`arrayOfUsersForAcuity ${JSON.stringify(arrayOfUsersForAcuity,null," ")}`)
 
@@ -144,6 +144,8 @@ async function acuityAPI3MainFunction(requesterID) {
             Looping through appointment array for each user
             and pushing filtered appointment to unsortedFilteredAppointments
         */ 
+        
+
         for(const i in appoinmentArrayFromAcuityForUser){
             
 
