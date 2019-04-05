@@ -83,7 +83,11 @@ async function acuityAPI3MainFunction(requesterID) {
     let arrayOfUsersForAcuity = []
 
     
-    
+    if(arrayOfOrganizationIDS.length = 0){
+        console.log(`there are no organizations will check appointments by user`)
+    }else if(arrayOfOrganizationIDS.length > 0){
+        
+    }
 
     for(const i in arrayOfOrganizationIDS){
         
