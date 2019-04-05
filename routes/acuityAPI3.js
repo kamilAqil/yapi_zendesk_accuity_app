@@ -17,6 +17,9 @@ var Zendesk = require('zendesk-node-api');
 
 var moment = require('moment');
 moment().format();
+let today = moment();
+today.utc();
+
 
 
 
@@ -162,6 +165,8 @@ async function acuityAPI3MainFunction(requesterID) {
         */ 
         
 
+       
+
         for(const i in appoinmentArrayFromAcuityForUser){
             
 
@@ -183,7 +188,8 @@ async function acuityAPI3MainFunction(requesterID) {
               console.log(`Error getting colors ${err}`)
             });
 
-            let filteredAppointment = await acuityFunctions.filterAppointment((appoinmentArrayFromAcuityForUser[i]),objOfColors)
+
+            let filteredAppointment = await acuityFunctions.filterAppointment((appoinmentArrayFromAcuityForUser[i]),objOfColors,today)
             .then((appointment)=>{
                 return appointment
             })
@@ -203,6 +209,17 @@ async function acuityAPI3MainFunction(requesterID) {
     }
 
     console.log(`total of unsortedFilteredAppointments ${unsortedFilteredAppointments.length}`)
+
+    let sortedAndFilteredAppointments = await acuityFunctions.organizeFilteredAppointments(unsortedFilteredAppointments)
+    .then((sortedAndFilteredAppointments)=>{
+        return sortedAndFilteredAppointments
+    })
+    .catch((err)=>{
+        console.log(`something went wrong when getting sortedAndFilteredAppointments on acuity API route 3 ${err}`)
+    })
+
+
+    console.log(`sortedAndFilteredAppointments ${sortedAndFilteredAppointments}`)
 
     return `acuityAPI3MainFunction has finished`
 }

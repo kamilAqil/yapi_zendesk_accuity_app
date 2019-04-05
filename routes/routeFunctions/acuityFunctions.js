@@ -51,10 +51,15 @@ module.exports = {
       })
     });
   },
-  filterAppointment : function(appointment,objOfColors){
+  filterAppointment : function(appointment,objOfColors,today){
     return new Promise((resolve,reject)=>{
+
+      let timeToCompare = moment(appointment['datetime']);
+      timeToCompare.format();
+
+      let difference = timeToCompare.diff(today, 'hours');
       
-      
+
   
       let colorOfAppt = objOfColors[`${appointment['type']}`]
 
@@ -71,12 +76,40 @@ module.exports = {
         type: appointment['type'],
         color: colorOfAppt,
         notes: appointment['notes'],
-        difference: undefined,
+        difference: difference,
         link: `https://secure.acuityscheduling.com/appointments/view/${appointment['id']}?backto=l:0`
       }
 
-      console.log(`filtered appointment ${filteredAppointment.id}`)
+      console.log(`filtered appointment ${filteredAppointment.id} and difference is ${difference}`)
       resolve(filteredAppointment)
+    })
+  },
+  organizeFilteredAppointments : function(unsortedFilteredAppointments){
+    return new Promise((resolve,reject)=>{
+      console.log(`running organizeFilteredAppointments array of length ${unsortedFilteredAppointments.length}`)
+      
+      let dataForFrontEnd = {
+        pastAppointments: [],
+        todaysAppointments: [],
+        futureAppointments: []
+      }
+
+      for(const appt in unsortedFilteredAppointments){
+        console.log(`appt ${unsortedFilteredAppointments[appt]}`)
+        if(unsortedFilteredAppointments[appt]['difference']<0){
+          dataForFrontEnd.pastAppointments.push(unsortedFilteredAppointments[appt])
+          console.log(`pushing appointment to past appointments difference is ${appt['difference']} and the date is ${appt['date']}`)
+        }else if (unsortedFilteredAppointments[appt]['difference']==0){
+          dataForFrontEnd.todaysAppointments.push(unsortedFilteredAppointments[appt])
+          console.log(`pushing appointment to today appointments difference is ${appt['difference']} and the date is ${appt['date']}`)
+        }else if (unsortedFilteredAppointments[appt]['difference']>0){
+          dataForFrontEnd.futureAppointments.push(unsortedFilteredAppointments[appt])
+          console.log(`pushing appointment to future appointments difference is ${appt['difference']} and the date is ${appt['date']}`)
+        }
+      }
+
+      console.log(`data for front end ${JSON.stringify(dataForFrontEnd,null," ")}`)
+      resolve(dataForFrontEnd)
     })
   }
 };
