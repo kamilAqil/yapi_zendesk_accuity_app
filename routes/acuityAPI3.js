@@ -175,11 +175,12 @@ async function acuityAPI3MainFunction(requesterID) {
 
         }
         
-        console.log(`total of unsortedFilteredAppointments ${unsortedFilteredAppointments.length}`)
+        
         
 
     }
 
+    console.log(`total of unsortedFilteredAppointments ${unsortedFilteredAppointments.length}`)
 
     return `acuityAPI3MainFunction has finished`
 }
