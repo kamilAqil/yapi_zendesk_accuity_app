@@ -34,14 +34,7 @@ app.use('/acuityAPI2',acuityAPI2);
 app.use('/acuityAPI3',acuityAPI3);
 
 
-// delay timer
-app.use(function (req, res) {
-  var delayed = new DelayedResponse(req, res);
-  delayed.wait();
-  var promise = slowFunction();
-  // will eventually end when the promise is fulfilled
-  delayed.end(promise);
-});
+
 
 
 
