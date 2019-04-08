@@ -119,9 +119,9 @@ module.exports = {
       //   pastAppointments : dateOrganizedDataForFrontEndArray[0]
       // }
       // console.log(`data for front end ${JSON.stringify(dataForFrontEnd.pastAppointments,null," ")}`)
-      dataForFrontEnd.pastAppointments = _.sortBy(dataForFrontEnd.pastAppointments,['difference'],['desc'])
-      dataForFrontEnd.todaysAppointments = _.sortBy(dataForFrontEnd.todaysAppointments,['difference'],['desc'])
-      dataForFrontEnd.futureAppointments = _.sortBy(dataForFrontEnd.futureAppointments,['difference'],['desc'])
+      dataForFrontEnd.pastAppointments = _.sortBy(dataForFrontEnd.pastAppointments,['difference'],['asc']).reverse()
+      dataForFrontEnd.todaysAppointments = _.sortBy(dataForFrontEnd.todaysAppointments,['difference'],['asc']).reverse()
+      dataForFrontEnd.futureAppointments = _.sortBy(dataForFrontEnd.futureAppointments,['difference'],['asc']).reverse()
       resolve(dataForFrontEnd)
     })
   }
