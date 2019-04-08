@@ -32,6 +32,19 @@ app.use('/zat', zatRoute);
 app.use('/acuityAPI',acuityAPI);
 app.use('/acuityAPI2',acuityAPI2);
 app.use('/acuityAPI3',acuityAPI3);
+
+
+// delay timer
+app.use(function (req, res) {
+  var delayed = new DelayedResponse(req, res);
+  delayed.wait();
+  var promise = slowFunction();
+  // will eventually end when the promise is fulfilled
+  delayed.end(promise);
+});
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
