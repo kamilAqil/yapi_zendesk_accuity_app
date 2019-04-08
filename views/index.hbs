@@ -27,6 +27,7 @@
             //{ { !--send ticket requester name to server api-- } }
             axios.get(`/acuityAPI3?requesterID=${requeseterID}`)
                 .then(function (response) {
+                        console.log(JSON.stringify(response,null," "))
                          client.invoke('resize', {
                             width: '100%',
                             height: '500px'

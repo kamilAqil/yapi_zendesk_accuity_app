@@ -221,7 +221,7 @@ async function acuityAPI3MainFunction(requesterID) {
 
     console.log(`sortedAndFilteredAppointments ${sortedAndFilteredAppointments}`)
 
-    return `acuityAPI3MainFunction has finished`
+    return sortedAndFilteredAppointments
 }
 
 
