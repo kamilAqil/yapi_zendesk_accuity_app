@@ -35,6 +35,28 @@ app.use('/acuityAPI3',acuityAPI3);
 
 
 
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+
+    // Pass to next layer of middleware
+    next();
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+
 const extendTimeoutMiddleware = (req, res, next) => {
   const space = ' ';
   let isFinished = false;
@@ -80,7 +102,7 @@ const extendTimeoutMiddleware = (req, res, next) => {
         // Wait another 15 seconds
         waitAndSend();
       }
-    }, 50000);
+    }, 15000);
   };
 
   waitAndSend();
@@ -88,26 +110,5 @@ const extendTimeoutMiddleware = (req, res, next) => {
 };
 
 app.use(extendTimeoutMiddleware);
-
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-
-    // Pass to next layer of middleware
-    next();
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
 
 module.exports = app;
