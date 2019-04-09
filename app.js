@@ -63,7 +63,7 @@ const extendTimeoutMiddleware = (req, res, next) => {
   let isDataSent = false;
 
   // Only extend the timeout for API requests
-  if (!req.url.includes('/api')) {
+  if (!req.url.includes('/acuityAPI3')) {
     next();
     return;
   }
@@ -102,7 +102,7 @@ const extendTimeoutMiddleware = (req, res, next) => {
         // Wait another 15 seconds
         waitAndSend();
       }
-    }, 15000);
+    }, 450);
   };
 
   waitAndSend();
