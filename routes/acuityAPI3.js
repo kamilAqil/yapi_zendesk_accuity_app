@@ -30,6 +30,7 @@ const extendTimeoutMiddleware = (req, res, next) => {
   
     // Only extend the timeout for API requests
     if (!req.url.includes('/')) {
+      console.log('wrong route')  
       next();
       return;
     }
@@ -60,7 +61,7 @@ const extendTimeoutMiddleware = (req, res, next) => {
         if (!isFinished && !isDataSent) {
           // Need to write the status code/headers if they haven't been sent yet.
           if (!res.headersSent) {
-            res.writeHead(202);
+            // res.writeHead(202);
           }
   
           res.write(space);
@@ -68,11 +69,11 @@ const extendTimeoutMiddleware = (req, res, next) => {
           // Wait another 15 seconds
           waitAndSend();
         }
-      }, 10);
+      }, 200);
     };
   
     waitAndSend();
-    next();
+    next()
   };
   
   router.use(extendTimeoutMiddleware);
