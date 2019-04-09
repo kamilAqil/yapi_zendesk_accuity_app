@@ -35,6 +35,62 @@ app.use('/acuityAPI3',acuityAPI3);
 
 
 
+const extendTimeoutMiddleware = (req, res, next) => {
+  console.log('EXTENDED TIMEOUT MIDDLEWARE')
+
+  const space = ' ';
+  let isFinished = false;
+  let isDataSent = false;
+
+  // Only extend the timeout for API requests
+  if (!req.url.includes('/')) {
+      console.log('wrong route')
+      next();
+      return;
+  }
+
+  res.once('finish', () => {
+      isFinished = true;
+  });
+
+  res.once('end', () => {
+      isFinished = true;
+  });
+
+  res.once('close', () => {
+      isFinished = true;
+  });
+
+  res.on('data', (data) => {
+      // Look for something other than our blank space to indicate that real
+      // data is now being sent back to the client.
+      if (data !== space) {
+          isDataSent = true;
+      }
+  });
+
+  const waitAndSend = () => {
+      setTimeout(() => {
+          // If the response hasn't finished and hasn't sent any data back....
+          if (!isFinished && !isDataSent) {
+              // Need to write the status code/headers if they haven't been sent yet.
+              if (!res.headersSent) {
+                  // res.writeHead(202);
+              }
+
+              res.write(space);
+              console.log(`time extended`)
+              // Wait another 15 seconds
+              waitAndSend();
+          }
+      }, 200);
+  };
+
+  waitAndSend();
+  next()
+};
+
+app.use(extendTimeoutMiddleware);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
