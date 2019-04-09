@@ -20,9 +20,66 @@ moment().format();
 let today = moment();
 today.utc();
 
-
-
-
+const space = ' ';
+let isFinished = false;
+let isDataSent = false;
+/*
+const extendTimeoutMiddleware = (req, res, next) => {
+    console.log('EXTENDED TIMEOUT MIDDLEWARE')
+  
+   
+  
+    // Only extend the timeout for API requests
+    
+    // if (!req.url.includes('/')) {
+    //     console.log('wrong route')
+    //     next();
+    //     return;
+    // }
+  
+    res.once('finish', () => {
+        isFinished = true;
+    });
+  
+    res.once('end', () => {
+        isFinished = true;
+    });
+  
+    res.once('close', () => {
+        isFinished = true;
+    });
+  
+    res.on('data', (data) => {
+        // Look for something other than our blank space to indicate that real
+        // data is now being sent back to the client.
+        if (data !== space) {
+            isDataSent = true;
+        }
+    });
+  
+    const waitAndSend = () => {
+        setTimeout(() => {
+            // If the response hasn't finished and hasn't sent any data back....
+            if (!isFinished && !isDataSent) {
+                // Need to write the status code/headers if they haven't been sent yet.
+                if (!res.headersSent) {
+                    // res.writeHead(202);
+                }
+  
+                res.write(space);
+                console.log(`time extended`)
+                // Wait another 15 seconds
+                waitAndSend();
+            }
+        }, 200);
+    };
+  
+    waitAndSend();
+    next()
+  };
+  
+  router.use(extendTimeoutMiddleware);
+*/
 
 /* GET home page. */
 
@@ -33,8 +90,10 @@ router.get('/', function (req, res, next) {
     
     acuityAPI3MainFunction(requesterID).then((data) => {
         console.log(data);
+        res
         res.send(data)
     });
+
 
 });
 
@@ -169,7 +228,7 @@ async function acuityAPI3MainFunction(requesterID) {
 
     }
 
-
+    // res.write(`getting colors`)
     // first get and set the acuity colors and appointment
     // types 
     await acuityFunctions.getAcuityColors().then((data) => {
