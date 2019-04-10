@@ -23,6 +23,7 @@
     "moment": "^2.24.0",
     "morgan": "~1.9.0",
     "node-zendesk": "^1.4.0",
+    "throng": "^4.0.0",
     "zendesk-node-api": "^1.3.0",
     "zendesk_app_framework_sdk": "^2.0.11"
   }
