@@ -90,8 +90,8 @@ router.get('/', function (req, res, next) {
     
     acuityAPI3MainFunction(requesterID).then((data) => {
         console.log(data);
-        res
-        res.send(data)
+        
+        res.json(data)
     });
 
 
