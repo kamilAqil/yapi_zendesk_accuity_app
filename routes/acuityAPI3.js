@@ -278,7 +278,7 @@ async function acuityAPI3MainFunction(requesterID) {
     })
 
 
-    console.log(`sortedAndFilteredAppointments ${sortedAndFilteredAppointments}`)
+    console.log(`total of sortedAndFilteredAppointments ${sortedAndFilteredAppointments.length}`)
 
     return sortedAndFilteredAppointments
 }
