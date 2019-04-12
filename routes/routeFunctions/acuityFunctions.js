@@ -22,7 +22,10 @@ module.exports = {
       console.log(`running getAppointmentsForUser ${user.name}`)
 
       acuity.request(`/appointments?email=${user.email}`, function (err, res, appointments) {
-        if (err) reject(err);
+        if (err) {
+          console.log(`SOMETHING WENT WRONG WITH ACUITY REQEUST ${err}`)
+          reject(err)
+        } 
         // reject(err)
         if (appointments.length <= 0) {
           console.log(`There are no appointments`)
