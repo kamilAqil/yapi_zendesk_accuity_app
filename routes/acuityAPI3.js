@@ -89,7 +89,7 @@ router.get('/', function (req, res, next) {
     requesterID = query.requesterID;
     
     acuityAPI3MainFunction(requesterID).then((data) => {
-        console.log(data);
+        // console.log(data);
         
         res.json(data)
     });
