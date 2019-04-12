@@ -108,7 +108,7 @@ module.exports = {
             function callback(error, response, body) {
                 if(error){
                     console.log(`there was an error ${error}`)
-                    reject(error)
+                    // reject(error)
                 }
                 parsedBody = JSON.parse(body)
                 console.log(`running getUserByUserID request callback and here is the response ${parsedBody}`)
